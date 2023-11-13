@@ -8,6 +8,7 @@
 4. Luks setup
 5. Prepare File Systems
 5. Base system installation
+6. Install Desktop Environment (Optional)
 
 Note: Procedures herein assumes UEFI.
 
@@ -128,7 +129,7 @@ reflector -c US -a 6 --sort rate --save /etc/pacman.d/mirrorlist
 pacman -Syyy
 
 #Install Arch Linux
-pacstrap /mnt base base-devel git linux linux-firmware linux-headers intel-ucode mkinitcpio lvm2 neovim  
+pacstrap /mnt base base-devel linux linux-firmware linux-headers intel-ucode mkinitcpio lvm2 vim  
 
 ```bash
 
@@ -196,7 +197,7 @@ Run mkinitcpio -P
 
 ```bash
 #To install the GRUB package, network and  CPU microcode
-pacman -S grub efibootmgr networkmanager intel-ucode
+pacman -S grub efibootmgr networkmanager 
  
 #Get the UUID of the device
 blkid -s UUID -o value /dev/nvme0n1p2
