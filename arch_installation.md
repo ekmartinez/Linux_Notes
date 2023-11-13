@@ -2,12 +2,14 @@
 
 **General Steps**
 
-1. Prepare installation media (Assumes UEFI)
+1. Prepare installation media
 2. Establish Network Connectivity
 3. Storage Partion
 4. Luks setup
 5. Prepare File Systems
 5. Base system installation
+
+Note: Procedures herein assumes UEFI.
 
 ## Prepare Media 
 
@@ -39,10 +41,9 @@ gdisk /dev/nvme0n1
 
 ```
 
-* Create boot partition with n with default number, default first sector, last sector at +512M and select ef00 “EFI System” as the type.
+* Create boot partition with n, default number, default first sector, last sector at +512M and select ef00 “EFI System” as the type.
 
-* Create root partition with n with default number, default first sector, default last sector 
-and select 8300 “Linux filesystem” as the type.
+* Create root partition with n, default number, default first sector, default last sector and select 8300 “Linux filesystem” as the type.
 
 ## Luks
 
@@ -63,7 +64,7 @@ cryptsetup open /dev/nvme0n1p2 cryptroot
 
 ## Prepare File Systems
 
-Format the files systems as:
+Format the files systems:
 
 ```bash
 
@@ -151,13 +152,11 @@ Set Locales
 
 ```bash
 
-ln -sf /usr/share/zoneinfo/Europe/Zurich /etc/localtime (or whatever your timezone is) to set your time zone
+ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
 hwclock --systohc
-```
-
-vim /etc/locale.gen and uncomment en_US.UTF-8 UTF-8
-
-```bash
+ 
+#Uncomment en_US.UTF-8 UTF-8
+vim /etc/locale.gen
 
 #Generate locales
 locale-gen
@@ -197,60 +196,60 @@ Run mkinitcpio -P
 
 ```bash
 #To install the GRUB package, network and  CPU microcode
-Run pacman -S grub efibootmgr networkmanager intel-ucode
+pacman -S grub efibootmgr networkmanager intel-ucode
  
 #Get the UUID of the device
-Run blkid -s UUID -o value /dev/nvme0n1p2
+blkid -s UUID -o value /dev/nvme0n1p2
  
-#To disable GRUB waiting until it chooses your OS  
+#To disable GRUB timeout.  
 vim /etc/default/grub and set GRUB_TIMEOUT=0
 
 #set GRUB_CMDLINE_LINUX="" while replacing “xxxx” with the UUID of the nvme0n1p2 device to tell GRUB about our encrypted file system
 GRUB_CMDLINE_LINUX="cryptdevice=UUID=xxxx:cryptroot"
  
-#Install GRUB for your system
+#Install & Configure GRUB
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-
-#Configure GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 # Finish Installation
 
 ```bash
 systemctl enable NetworkManager.service
- 
-#To return to the outer shell and setup
 exit
 reboot
 ```
+Finishing steps
 
-edit the fstab configuration to add an entry for the swap file: (if necesary, since it was already configured)
+```bash
+#Add swapfile to the fstab configuration. 
 vim /etc/fstab
 /swapfile none swap defaults 0 0 
 
-ip link set interface up (if needed (ethernet or wifi)
-
 -Add  non root user
-Run useradd -m -g- users -G wheel -s /bin/bash user_name
+useradd -m -g users -G wheel -s /bin/bash user_name
 
-Set password passwd user_name
+#Set password for new user
+passwd user_name
 
-Install sudo (if needed, it was installed)
-run EDITOR=vim visudo
+#Install & configure sudo 
+EDITOR=vim visudo
 uncomment % wheel ALL=(ALL) ALL
 
 exit
 login as user_name
+```
 
--Optional(Install a Desktop Environment)
+## Optional(Install a Desktop Environment)
 
 KDE
+```bash
 sudo pacman -Sy xorg plasma plasma-wayland-session sddm konsole
 sudo systemctl enable sddm
-
+```
 Xfce
+```bash
 sudo pacman -S xfce4 xfce4-goodies
 sudo pacman -S lightdm lightdm-gtk-greeter
 sudo systemctl enable lightdm.service -f
 sudo sytemctl start lightdm.service
-
+```
