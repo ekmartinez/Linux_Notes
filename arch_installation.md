@@ -8,7 +8,6 @@
 4. Luks setup
 5. Prepare File Systems
 5. Base system installation
-6. Installing a Wayland compositor
 
 ## Prepare Media 
 
@@ -144,7 +143,7 @@ Enter into root environment
 
 ```bash
 
-arch-chroot /mnt to switch to your new Arch Linux installation
+arch-chroot /mnt
 
 ```
 
@@ -154,7 +153,11 @@ Set Locales
 
 ln -sf /usr/share/zoneinfo/Europe/Zurich /etc/localtime (or whatever your timezone is) to set your time zone
 hwclock --systohc
-vim /etc/locale.gen and uncomment yours (e.g. en_US.UTF-8 UTF-8)
+```
+
+vim /etc/locale.gen and uncomment en_US.UTF-8 UTF-8
+
+```bash
 
 #Generate locales
 locale-gen
@@ -165,7 +168,8 @@ echo LANG=en_US.UTF-8 > /etc/locale.conf
 Set Hostname
 
 ```bash
-echo arch > /etc/hostname (or whatever your hostname should be)
+echo arch > /etc/hostname
+
 vim /etc/hosts and insert the following lines:
 
 127.0.0.1     localhost
@@ -174,30 +178,41 @@ vim /etc/hosts and insert the following lines:
 
 ```
 
-Set Root Password
+# Set Root Password
 
+```bash
+passwd
+```
 
-Run passwd and set your root password
+# Configure Initramfs
 
--Configure Initramfs
-Run vim /etc/mkinitcpio.conf and, to the HOOKS array, add keyboard between autodetect and modconf 
-and add encrypt between block and filesystems
+```bash
+vim /etc/mkinitcpio.conf 
+# Add encrypt between block and filesystems in the HOOKS array.
+
 Run mkinitcpio -P
+```
 
--Install Boot Loader
-Run pacman -S grub efibootmgr networkmanager intel-ucode (or amd-ucode if you have an AMD processor) to install the GRUB package and CPU microcode
+# Install Boot Loader
 
-Run blkid -s UUID -o value /dev/nvme0n1p2 to get the UUID of the device
+```bash
+#To install the GRUB package and CPU microcode
+Run pacman -S grub efibootmgr networkmanager intel-ucode
+ 
+#Get the UUID of the device
+Run blkid -s UUID -o value /dev/nvme0n1p2
+ 
+#To disable GRUB waiting until it chooses your OS  
+vim /etc/default/grub and set GRUB_TIMEOUT=0
 
-Run vim /etc/default/grub and set GRUB_TIMEOUT=0 to disable GRUB waiting until it chooses your OS 
-(only makes sense if you don’t dual-boot with another OS), 
+#set GRUB_CMDLINE_LINUX="" while replacing “xxxx” with the UUID of the nvme0n1p2 device to tell GRUB about our encrypted file system
+GRUB_CMDLINE_LINUX="cryptdevice=UUID=xxxx:cryptroot"
+ 
+#Install GRUB for your system
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 
-set GRUB_CMDLINE_LINUX="cryptdevice=UUID=xxxx:cryptroot" while replacing “xxxx” with the UUID of the 
-nvme0n1p2 device to tell GRUB about our encrypted file system
-
-Run grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB to install GRUB for your system
-
-Run grub-mkconfig -o /boot/grub/grub.cfg to configure GRUB
+#Configure GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl enable NetworkManager.service
 
