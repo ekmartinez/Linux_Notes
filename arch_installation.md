@@ -196,7 +196,7 @@ Run mkinitcpio -P
 # Install Boot Loader
 
 ```bash
-#To install the GRUB package and CPU microcode
+#To install the GRUB package, network and  CPU microcode
 Run pacman -S grub efibootmgr networkmanager intel-ucode
  
 #Get the UUID of the device
@@ -213,11 +213,16 @@ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 
 #Configure GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
+```
+# Finish Installation
 
+```bash
 systemctl enable NetworkManager.service
-
-Run exit to return to the outer shell
-Run reboot to get out of the setup
+ 
+#To return to the outer shell and setup
+exit
+reboot
+```
 
 edit the fstab configuration to add an entry for the swap file: (if necesary, since it was already configured)
 vim /etc/fstab
