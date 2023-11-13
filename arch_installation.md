@@ -15,7 +15,7 @@ Note: Procedures herein assumes UEFI.
 
 Download and prepare the media for the latest ISO from the Arch Linux website (https://archlinux.org/download/)
 
-** Verify signature
+Verify signature
 
 ```bash
 
@@ -33,7 +33,7 @@ lsblk
 
 ```
 
-** Partition:
+Partition:
 
 ```bash
 
@@ -97,7 +97,7 @@ lsblk
 
 ```
 
-** Swapfile
+Swapfile
 
 ```bash
 
@@ -117,7 +117,7 @@ swapon /mnt/swapfile
 
 ## Installation
 
-* Install base system
+Install base system
 
 ```bash
 
@@ -245,6 +245,7 @@ KDE
 ```bash
 sudo pacman -Sy xorg plasma plasma-wayland-session sddm konsole
 sudo systemctl enable sddm
+sudo systemctl start sddm
 ```
 Xfce
 ```bash
