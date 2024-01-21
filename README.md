@@ -27,7 +27,32 @@ This area will have instuctions on installing and configuring security and priva
 
 * Firewalls
 * IDS
-* Proxys and VPNs
+* Proxys
+* VPN
 
+## Firewall
+* ufw
 
+## Intrusion Detection System
+* Snort / Suricata
 
+## Proxy
+
+Anonymizing traffic through tor (proxy servers can be configured)
+
+```bash
+sudo pacman -S proxychains-ng tor
+sudo systemctl start tor
+proxychains firefox
+```
+
+## VPN
+
+Openvpn installation & configuration for gnome.  
+This will add the vpn connection option on the settings menu.
+
+```bash
+sudo pacman -S openvpn 
+sudo pacman -S networkmanager-openvpn 
+sudo pacman -S netoworkmanager-applet 
+```
