@@ -123,15 +123,14 @@ Install base system
 ```bash
 
 #Optimize mirror list
-reflector -c US -a 6 --sort rate --save /etc/pacman.d/mirrorlist
+reflector --country US --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
 #Refresh repositories
 pacman -Syyy
 
 #Install Arch Linux
 pacstrap /mnt base base-devel linux linux-firmware linux-headers intel-ucode mkinitcpio lvm2 vim  
-
-```bash
+```
 
 Generate fstab file
 
@@ -196,7 +195,8 @@ Run mkinitcpio -P
 # Install Boot Loader
 
 ```bash
-#To install the GRUB package, network and  CPU microcode
+#To install the GRUB package, network manager
+
 pacman -S grub efibootmgr networkmanager 
  
 #Get the UUID of the device
@@ -242,9 +242,15 @@ login as user_name
 
 ## Optional(Install a Desktop Environment)
 
+Gnome
+```bash
+sudo pacman -S gnome
+sudo systemctl enable gdm
+```
+
 KDE
 ```bash
-sudo pacman -Sy xorg plasma plasma-wayland-session sddm konsole
+sudo pacman -Sy plasma plasma-wayland-session sddm konsole
 sudo systemctl enable sddm
 sudo systemctl start sddm
 ```

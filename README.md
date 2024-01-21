@@ -38,7 +38,7 @@ This area will have instuctions on installing and configuring security and priva
 
 ## Proxy
 
-Anonymizing traffic through tor (proxy servers can be configured)
+Anonymizing traffic through tor (proxy servers can be used instead on the configuration file.)
 
 ```bash
 sudo pacman -S proxychains-ng tor
@@ -48,8 +48,7 @@ proxychains firefox
 
 ## VPN
 
-Openvpn installation & configuration for gnome.  
-This will add the vpn connection option on the settings menu.
+Openvpn installation & configuration for gnome. This will add the vpn connection option on the settings menu.
 
 ```bash
 sudo pacman -S openvpn 
