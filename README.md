@@ -37,13 +37,18 @@ This area will have instuctions on installing and configuring security and priva
 
 ### Suricata - Installation & Configuration
 
-These instructions where successfully tested on Ubuntu Server& Fedora 37, but haven't been able to configure the update-sources correctly on Arch.
+These instructions where successfully tested on Ubuntu Server & Fedora 37, but haven't been able to configure the update-sources correctly on Arch.
 
 **Quickstart Guide**
+
 https://docs.suricata.io/en/latest/quickstart.html
+
+```bash
 suricata -h (--help)
 
+```
 **Installation**
+
 sudo apt-get install suricata jq
 
 **Configuration**
@@ -102,6 +107,7 @@ sudo suricata-update enable-source <source_name>
 
 Update Sources
 sudo suricata-update update-sources
+```
 
 ## Proxy
 
