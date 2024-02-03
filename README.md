@@ -34,7 +34,74 @@ This area will have instuctions on installing and configuring security and priva
 * ufw
 
 ## Intrusion Detection System
-* Snort / Suricata
+
+### Suricata - Installation & Configuration
+
+These instructions where successfully tested on Ubuntu Server& Fedora 37, but haven't been able to configure the update-sources correctly on Arch.
+
+**Quickstart Guide**
+https://docs.suricata.io/en/latest/quickstart.html
+suricata -h (--help)
+
+**Installation**
+sudo apt-get install suricata jq
+
+**Configuration**
+
+Get network interface name
+```bash
+ip addr
+```
+
+Edit Configuration File
+```bash
+sudo nvim /etc/suricata/suricata.yaml
+
+HOME_NET = ['192.168.0.0/24']
+
+Capture settings
+	af-packet:
+		interface: enp1s0
+		cluster-id: 99
+		cluster-type: cluster_flow
+		defrag: yes
+		use-mmap: yes
+		tpacket-v3: yes
+```
+
+Update, Start & Enable Suricata Service
+```bash
+sudo suricata-update
+sudo systemctl start suricata
+sudo systemctl enable suricata
+```
+
+Test configuration
+```bash
+sudo tail /var/log/suricata/suricata.log
+
+#Statistics
+sudo tail -f /var/log/suricata/stats.log
+
+#Test if working
+sudo tail -f /var/log/suricata/fast.log
+curl http://testmynids.org/uid/index.html
+
+#A nicer output:
+sudo tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="alert")'
+
+#More detail about each alert
+sudo tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="stats")|.stats.capture.kernel_packets'
+sudo tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="stats")'
+
+#See additional sources
+sudo suricata-update list-sources
+
+#Enable source
+sudo suricata-update enable-source <source_name>
+
+Update Sources
+sudo suricata-update update-sources
 
 ## Proxy
 
