@@ -31,7 +31,9 @@ This area will have instuctions on installing and configuring security and priva
 
 ## Firewall
 
-Uncomplicated Firewall is an easy to use yet powerfull firewall front end for iptables on Linux.
+### UFW - Uncomplicated Firewall 
+
+Uncomplicated Firewall is an easy to use yet powerfull firewall front-end for iptables on Linux.
 
 ```bash
 #Installation
@@ -53,7 +55,7 @@ sudo ufw enable
 
 #See if working
 sudo ufw status 
-``
+```
 
 ## Intrusion Detection System
 
