@@ -23,7 +23,7 @@ This area will have instructions on networking operations.
 
 ## Security
 
-This area will have instuctions on installing and configuring security and privacy software on Linux.
+This area has instuctions on installing and configuring security and privacy software on Linux.
 
 * Firewalls
 * IDS
