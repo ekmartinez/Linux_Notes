@@ -27,7 +27,6 @@ This area will have instuctions on installing and configuring security and priva
 
 * Firewalls
 * IDS
-* Proxys
 * VPN
 
 ## Firewall
@@ -109,22 +108,39 @@ Update Sources
 sudo suricata-update update-sources
 ```
 
-## Proxy
-
-Anonymizing traffic through tor (proxy servers can be used instead on the configuration file.)
-
-```bash
-sudo pacman -S proxychains-ng tor
-sudo systemctl start tor
-proxychains firefox
-```
-
 ## VPN
 
-Openvpn installation & configuration for gnome. This will add the vpn connection option on the settings menu.
+**OpenVpn**
 
 ```bash
 sudo pacman -S openvpn 
 sudo pacman -S networkmanager-openvpn 
 sudo pacman -S netoworkmanager-applet 
 ```
+
+**Wireguard**
+
+Assuming you have access to a VPN service with Wireguard support.  
+
+1. Download a configuration file(otherwise you need to setup manually).
+2. Install the Wireguard client.
+3. Move (or create) configuration.conf at /etc/wireguard
+
+General Steps
+```bash
+#Install Wireguard client
+sudo pacman -Sy wireguard-tools 
+
+#Move configuration file
+mv configuration.conf /etc/wireguard/configuration.conf
+
+#Connect
+sudo wg-quick up configuration (without the extension)
+
+#See if working
+sudo wg
+```
+
+
+
+
