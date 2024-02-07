@@ -30,7 +30,30 @@ This area will have instuctions on installing and configuring security and priva
 * VPN
 
 ## Firewall
-* ufw
+
+Uncomplicated Firewall is an easy to use yet powerfull firewall front end for iptables on Linux.
+
+```bash
+#Installation
+sudo pacman -Sy ufw
+
+#Start service with systemd
+sudo systemctl start ufw.service
+
+#Enable ufw on startup using systemd
+sudo systemctl enable ufw.service
+
+#Basic rules (Example modify as needed)
+sudo ufw defualt deny
+sudo limit ssh
+sudo ufw from 192.168.0.0/24
+
+#Onetime command to enable the firewall
+sudo ufw enable
+
+#See if working
+sudo ufw status 
+``
 
 ## Intrusion Detection System
 
