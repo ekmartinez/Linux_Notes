@@ -56,7 +56,6 @@ sudo ufw enable
 #See if working
 sudo ufw status 
 ```
-
 ## Intrusion Detection System
 
 ### Suricata - Installation & Configuration
@@ -81,7 +80,6 @@ Get network interface name
 ```bash
 ip addr
 ```
-
 Edit Configuration File
 ```bash
 sudo nvim /etc/suricata/suricata.yaml
@@ -132,8 +130,7 @@ sudo suricata-update enable-source <source_name>
 Update Sources
 sudo suricata-update update-sources
 ```
-
-## VPN
+## Virtual Private Network
 
 **OpenVpn**
 
