@@ -16,22 +16,35 @@ This area will contain the most common commands on linux.
 Find files:
 
 find . -name flag1.txt: find the file named “flag1.txt” in the current directory
+
 find /home -name flag1.txt: find the file names “flag1.txt” in the /home directory
+
 find / -type d -name config: find the directory named config under “/”
+
 find / -type f -perm 0777: find files with the 777 permissions (files readable, writable, and executable by all users)
+
 find / -perm a=x: find executable files
+
 find /home -user frank: find all files for user “frank” under “/home”
+
 find / -mtime 10: find files that were modified in the last 10 days
+
 find / -atime 10: find files that were accessed in the last 10 day
+
 find / -cmin -60: find files changed within the last hour (60 minutes)
+
 find / -amin -60: find files accesses within the last hour (60 minutes)
+
 find / -size 50M: find files with a 50 MB size
+
 find / -perm -u=s -type f 2>/dev/null: Find files with the SUID bit, which allows us to run the file with a higher privilege level than the current user.
 
 Folders and files that can be written to or executed from:
 
 find / -writable -type d 2>/dev/null : Find world-writeable folders
+
 find / -perm -222 -type d 2>/dev/null: Find world-writeable folders
+
 find / -perm -o w -type d 2>/dev/null: Find world-writeable folders
 
 find / -perm -o x -type d 2>/dev/null : Find world-executable folders
@@ -39,7 +52,9 @@ find / -perm -o x -type d 2>/dev/null : Find world-executable folders
 Find development tools and supported languages:
 
 find / -name perl*
+
 find / -name python*
+
 find / -name gcc*
 
 ## Networking
@@ -53,15 +68,23 @@ This area will have instructions on networking operations.
 ### netstat
 
 netstat -a: shows all listening ports and established connections.
+
 netstat -at or netstat -au can also be used to list TCP or UDP protocols respectively.
+
 netstat -l: list ports in “listening” mode. These ports are open and ready to accept incoming connections. This can be used with the “t” option to list only ports that are listening using the TCP protocol.
+
 netstat -s: list network usage statistics by protocol (below) This can also be used with the -t or -u options to limit the output to a specific protocol.
+
 netstat -tp: list connections with the service name and PID information.
+
 netstat -i: Shows interface statistics. We see below that “eth0” and “tun0” are more active than “tun1”.
 
 netstat -ano
+
 -a: Display all sockets
+
 -n: Do not resolve names
+
 -o: Display timers
 
 ## Security
