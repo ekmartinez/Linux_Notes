@@ -46,11 +46,23 @@ find / -name gcc*
 
 This area will have instructions on networking operations.
 
-* Network manager
-* Wireless interfaces
-* Bridges
+* netstat
+* route
 * DNS analysis
-* Routing analysis
+
+### netstat
+
+netstat -a: shows all listening ports and established connections.
+netstat -at or netstat -au can also be used to list TCP or UDP protocols respectively.
+netstat -l: list ports in “listening” mode. These ports are open and ready to accept incoming connections. This can be used with the “t” option to list only ports that are listening using the TCP protocol.
+netstat -s: list network usage statistics by protocol (below) This can also be used with the -t or -u options to limit the output to a specific protocol.
+netstat -tp: list connections with the service name and PID information.
+netstat -i: Shows interface statistics. We see below that “eth0” and “tun0” are more active than “tun1”.
+
+netstat -ano
+-a: Display all sockets
+-n: Do not resolve names
+-o: Display timers
 
 ## Security
 
