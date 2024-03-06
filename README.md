@@ -37,7 +37,7 @@ find / -amin -60: find files accesses within the last hour (60 minutes)
 
 find / -size 50M: find files with a 50 MB size
 
-find / -perm -u=s -type f 2>/dev/null: Find files with the SUID bit, which allows us to run the file with a higher privilege level than the current user.
+find / -perm -u=s -type f 2>/dev/null: Find files with the SUID bit set.
 
 Folders and files that can be written to or executed from:
 
