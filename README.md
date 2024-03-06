@@ -49,6 +49,8 @@ find / -perm -o w -type d 2>/dev/null: Find world-writeable folders
 
 find / -perm -o x -type d 2>/dev/null : Find world-executable folders
 
+find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u : Find writable folders in a cleaner way.
+
 Find development tools and supported languages:
 
 find / -name perl*
