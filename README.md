@@ -129,13 +129,13 @@ find / -name gcc*
 
 This area will have instructions on networking operations.
 
-* Wireless Devices
+* Wireless Connections
 * Bluetooth Devices
 * ip command
 * ss command
 * DNS analysis
 
-### Wireless Devices
+### Wireless Connections
 
 The iwctl tool allows operations on wireless devices.  To use it you need to install the iwd package:
 
