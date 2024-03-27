@@ -15,9 +15,9 @@ This area will contain the most common commands on linux.
 
 Finding files:
 
-Find the file named “flag1.txt” in the current directory
+Find the file named “flag1.txt” in the current directory:
 
-``bash
+```bash
 find . -name flag1.txt
 ```
 
