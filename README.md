@@ -352,11 +352,13 @@ sudo suricata-update update-sources
 
 **OpenVpn**
 
+The following was test on gnome:
+
 ```bash
-sudo pacman -S openvpn 
-sudo pacman -S networkmanager-openvpn 
-sudo pacman -S netoworkmanager-applet 
+sudo pacman -S openvpn networkmanager-openvpn network-manager-applet 
 ```
+
+After installing, use the graphical user interface to add a configuration file and connect.
 
 **Wireguard**
 
@@ -398,5 +400,6 @@ sudo wg
 Enable on boot
 
 ```bash
-sudo systemctl enable wg-quick@iface.service#Install Wireguard client
+sudo systemctl enable wg-quick@iface.service
 ```
+
