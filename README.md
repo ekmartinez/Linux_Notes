@@ -129,31 +129,64 @@ find / -name gcc*
 
 This area will have instructions on networking operations.
 
-* netstat
-* route
+* Wireless Devices
+* Bluetooth Devices
+* ip command
+* ss command
 * DNS analysis
 
-### netstat
+### Wireless Devices
 
-netstat -a: shows all listening ports and established connections.
+The iwctl tools allows operations on wireless devices.  To use it you need to install the iwd package:
 
-netstat -at or netstat -au can also be used to list TCP or UDP protocols respectively.
+```bash
+sudo pacman -S iwd
+```
 
-netstat -l: list ports in “listening” mode. These ports are open and ready to accept incoming connections. This can be used with the “t” option to list only ports that are listening using the TCP protocol.
+Start the iwd service:
 
-netstat -s: list network usage statistics by protocol (below) This can also be used with the -t or -u options to limit the output to a specific protocol.
+```bash
+sudo systemctl start iwd.service
+```
 
-netstat -tp: list connections with the service name and PID information.
+Enable the iwd service:
 
-netstat -i: Shows interface statistics. We see below that “eth0” and “tun0” are more active than “tun1”.
+```bash
+sudo systemctl enable iwd.service
+```
 
-netstat -ano
+Get to the iwctl prompt:
 
--a: Display all sockets
+```bash
+iwctl
+```
 
--n: Do not resolve names
+To get list of available network interfaces:
 
--o: Display timers
+```bash
+[iwd]# device list
+```
+
+To scan for wireless networks in range:
+
+```bash
+[iwd]# station <wlan0> scan
+```
+
+Note that the command above won't produce any output but the results will remain on memory. To get the results you use the following command:
+
+```bash
+[iwd]# station <wlan0> get-networks
+```
+
+After getting the available networks you can connect by SSID:
+
+```bash
+[iwd]# station <wlan0> connnect <SSID>
+```
+
+Enter the password and you are in.
+
 
 ## Security
 
