@@ -196,6 +196,11 @@ The necessary packages are:
 ```bash
 sudo pacman -S bluez bluez-utils
 ```
+In my case, my system didn't had bluetooth profiles for my headset so I had to install an additional package:
+
+```bash
+sudo pacman -S pipewire-pulse
+```
 
 Start / enable bluetooth
 
