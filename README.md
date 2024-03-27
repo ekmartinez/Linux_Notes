@@ -187,6 +187,52 @@ After getting the available networks you can connect by SSID:
 
 Enter the password and you are in.
 
+## Bluetooth Connections
+
+This area contains basic information regarding the configuration of bluetooth devices like mouse and headsets.
+
+The necessary packages are:
+
+```bash
+sudo pacman -S bluez bluez-utils
+```
+
+Start / enable bluetooth
+
+```bash
+sudo systemctl start bluetooth.service
+```
+```bash
+sudo systemctl enable bluetooth.service
+```
+
+Get to the bluetoothctl prompt:
+
+```bash
+bluetoothctl
+```
+
+Enter discovery mode and scan for available devices:
+```bash
+[bluetooth]# scan on
+```
+
+Take note of the MAC address of the device you are interested on.
+
+To pair with the device:
+
+```bash
+[bluetooth]# pair <mac address>
+```
+
+To connect to the device:
+
+```bash
+[bluetooth]# connect <mac address>
+```
+
+You will only need to perform these procedures once
+per device if you enabled the bluetooth service.
 
 ## Security
 
