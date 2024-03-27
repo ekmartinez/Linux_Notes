@@ -365,6 +365,7 @@ Assuming you have access to a VPN service with Wireguard support.
 1. Download a configuration file(otherwise you need to setup manually).
 2. Install the Wireguard client.
 3. Move (or create) configuration.conf at /etc/wireguard
+4. Start / enable service.
 
 Install Wireguard client
 
@@ -389,9 +390,11 @@ sudo pacman -S openresolv
 ```
 
 See if working
+
 ```bash
 sudo wg
 ```
+
 Enable on boot
 
 ```bash
