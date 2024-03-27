@@ -366,21 +366,34 @@ Assuming you have access to a VPN service with Wireguard support.
 2. Install the Wireguard client.
 3. Move (or create) configuration.conf at /etc/wireguard
 
-General Steps
+Install Wireguard client
+
 ```bash
-#Install Wireguard client
 sudo pacman -Sy wireguard-tools 
-
-#Move configuration file
-mv configuration.conf /etc/wireguard/configuration.conf
-
-#Connect
-sudo wg-quick up configuration (without the extension)
-
-#See if working
-sudo wg
 ```
 
+Move configuration file
+```bash
+mv configuration.conf /etc/wireguard/configuration.conf
+```
 
+Connect
+```bash
+sudo wg-quick up configuration (without the extension)
+```
 
+Depending on your network configuration you may get a resolvconf error. Install it with the openresolv package, not the systemd one since it doesn't work. (at least for me).
 
+```bash
+sudo pacman -S openresolv
+```
+
+See if working
+```bash
+sudo wg
+```
+Enable on boot
+
+```bash
+sudo systemctl enable wg-quick@iface.service#Install Wireguard client
+```
