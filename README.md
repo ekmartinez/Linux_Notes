@@ -13,51 +13,117 @@ This area will contain the most common commands on linux.
 
 ### Searching
 
-Find files:
+Finding files:
 
-find . -name flag1.txt: find the file named “flag1.txt” in the current directory
+Find the file named “flag1.txt” in the current directory
 
-find /home -name flag1.txt: find the file names “flag1.txt” in the /home directory
+``bash
+find . -name flag1.txt
+```
 
-find / -type d -name config: find the directory named config under “/”
+Find the file names “flag1.txt” in the /home directory
 
-find / -type f -perm 0777: find files with the 777 permissions (files readable, writable, and executable by all users)
+```bash
+find /home -name flag1.txt
+```
 
-find / -perm a=x: find executable files
+Find the directory named config under “/”
 
-find /home -user frank: find all files for user “frank” under “/home”
+```bash
+find / -type d -name config
+```
 
-find / -mtime 10: find files that were modified in the last 10 days
+Find files with the 777 permissions (files readable, writable, and executable by all users):
 
-find / -atime 10: find files that were accessed in the last 10 day
+```bash
+find / -type f -perm 0777
+```
 
-find / -cmin -60: find files changed within the last hour (60 minutes)
+Find executable files:
 
-find / -amin -60: find files accesses within the last hour (60 minutes)
+```bash
+find / -perm a=x
+```
 
-find / -size 50M: find files with a 50 MB size
+Find all files for user “frank” under “/home”
 
-find / -perm -u=s -type f 2>/dev/null: Find files with the SUID bit set.
+```bash
+find /home -user frank
+```
 
-Folders and files that can be written to or executed from:
+Find files that were modified in the last 10 days:
 
-find / -writable -type d 2>/dev/null : Find world-writeable folders
+```bash
+find / -mtime 10
+```
 
-find / -perm -222 -type d 2>/dev/null: Find world-writeable folders
+Find files that were accessed in the last 10 day:
 
-find / -perm -o w -type d 2>/dev/null: Find world-writeable folders
+```bash
+find / -atime 10
+```
 
-find / -perm -o x -type d 2>/dev/null : Find world-executable folders
+Find files changed within the last hour (60 minutes):
 
-find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u : Find writable folders in a cleaner way.
+```bash
+find / -cmin -60
+```
+
+Find files accesses within the last hour (60 minutes)
+
+```bash
+find / -amin -60
+```
+
+Find files with a 50 MB size:
+
+```bash
+find / -size 50M
+```
+
+Find files with the SUID bit set.
+
+```bash
+find / -perm -u=s -type f 2>/dev/null
+```
+
+**Folders and files that can be written to or executed from:**
+
+Find world-writeable folders:
+
+```bash
+find / -writable -type d 2>/dev/null 
+```
+```bash
+find / -perm -222 -type d 2>/dev/null
+```
+```bash
+find / -perm -o w -type d 2>/dev/null
+```
+
+Find world-executable folders:
+
+```bash
+find / -perm -o x -type d 2>/dev/null 
+```
+
+Find writable folders in a cleaner way.
+
+```bash
+find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u 
+```
 
 Find development tools and supported languages:
 
+```bash
 find / -name perl*
-
+```
+```bash
 find / -name python*
-
+```
+```bash
 find / -name gcc*
+```
 
 ## Networking
 
