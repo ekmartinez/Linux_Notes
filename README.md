@@ -217,7 +217,7 @@ Enter discovery mode and scan for available devices:
 [bluetooth]# scan on
 ```
 
-Take note of the MAC address of the device you are interested on.
+Take note of the MAC address of the device you are interested in.
 
 To pair with the device:
 
