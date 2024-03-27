@@ -137,7 +137,7 @@ This area will have instructions on networking operations.
 
 ### Wireless Devices
 
-The iwctl tools allows operations on wireless devices.  To use it you need to install the iwd package:
+The iwctl tool allows operations on wireless devices.  To use it you need to install the iwd package:
 
 ```bash
 sudo pacman -S iwd
