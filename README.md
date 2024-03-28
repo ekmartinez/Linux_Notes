@@ -216,7 +216,18 @@ That should do it.
 
 This area contains basic information regarding the configuration of bluetooth devices like mouse and headsets.
 
-The necessary packages are:
+First of all check if the device is not block with:
+
+```bash
+rfkill list
+```
+If it is, unblock with:
+
+```bash
+rfkill unblock all
+```
+
+Install the necessary packages:
 
 ```bash
 sudo pacman -S bluez bluez-utils
