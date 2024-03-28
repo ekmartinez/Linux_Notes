@@ -22,6 +22,7 @@ grep -r . /sys/devices/system/cpu/vulnerabilities/
 Scan for malware with rkhunter.
 
 Location of configuration file: etc/rkhunter.conf
+
 Location of last results: /var/log/rkhunter.log
 
 Since rkhunter uses ifconfig and unhide to run some of the scans we install them all with:
