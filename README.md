@@ -137,7 +137,9 @@ This area will have instructions on networking operations.
 
 ### Wireless Connections
 
-The iwctl tool allows operations on wireless devices.  To use it you need to install the iwd package:
+**iwd**
+
+The iwctl tool allows operations on wireless devices. Note that this is better to use when installing Arch Linux or are running your network configuration through systemd.  If you use Network Manager, you should use the nmcli tool instead.
 
 ```bash
 sudo pacman -S iwd
@@ -186,6 +188,26 @@ After getting the available networks you can connect by SSID:
 ```
 
 Enter the password and you are in.
+
+**Network Manager**
+
+In case the wireless interface is off:
+
+```bash
+nmcli r wifi on
+```
+
+List available networks:
+
+```bash
+nmcli d wifi list
+```
+
+Connect to a network:
+```bash
+nmcli d wifi connect <ssid> password <password>
+
+That should do it.
 
 ## Bluetooth Connections
 
@@ -382,7 +404,8 @@ mv configuration.conf /etc/wireguard/configuration.conf
 
 Connect
 ```bash
-sudo wg-quick up configuration (without the extension)
+# Without the extension
+sudo wg-quick up configuration 
 ```
 
 Depending on your network configuration you may get a resolvconf error. Install it with the openresolv package, not the systemd one since it doesn't work. (at least for me).
