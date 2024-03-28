@@ -17,4 +17,19 @@ usermod -G libvirt -a $(whoami)
 Navigate to /etc/libvirt/libvirtd.conf and uncomment the following lines:
 
 
+```bash
+# UNIX socket access controls
+
+# This is restricted to 'root' by default.
+unix_sock_group = "libvirt"
+
+#Uncomment and change the following line from:
+
+unix_sock_ro_perms = "0777"
+
+#To
+
+unix_sock_ro_perms = "0770"
+
+```
 
