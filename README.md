@@ -139,7 +139,7 @@ This area will have instructions on networking operations.
 
 **iwd**
 
-The iwctl tool allows operations on wireless devices. Note that this is better to use when installing Arch Linux or are running your network configuration through systemd.  If you use Network Manager, you should use the nmcli tool instead.
+The iwctl tool allows operations on wireless devices. Note that this is better to use when installing Arch Linux or running your network configuration through systemd.  If you use Network Manager, you should use the nmcli tool instead.
 
 ```bash
 sudo pacman -S iwd
