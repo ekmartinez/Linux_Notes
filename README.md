@@ -1,6 +1,6 @@
 # Linux_Notes 
 
-General Notes on the Linux Operating System
+This document contains notes on the use of Linux Operating System.  The primary purpose is to aid the author in configuring his own system with the tools and procedures that work for him.  This is by no means a tutorial or a guide on setting up stuff on Linux.  
 
 ## General Commands
 
@@ -191,6 +191,8 @@ Enter the password and you are in.
 
 **Network Manager**
 
+The following are the instructions for connecting to wireless networks using Network Manager.
+
 In case the wireless interface is off:
 
 ```bash
@@ -206,6 +208,7 @@ nmcli d wifi list
 Connect to a network:
 ```bash
 nmcli d wifi connect <ssid> password <password>
+```
 
 That should do it.
 
