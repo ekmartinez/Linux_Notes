@@ -4,10 +4,9 @@ This repositories contains personal notes on the installation, configuration and
 
 ## General Commands
 
-This area will contain the most common commands on linux.
+This area will contain the most commonly used Linux commands.
 
 * System administration
-* File navigation
 * Permissions
 * Searching
 
