@@ -24,10 +24,10 @@ Scan for malware with rkhunter.
 Location of configuration file: etc/rkhunter.conf
 Location of last results: /var/log/rkhunter.log
 
-Installation:
+Since rkhunter uses ifconfig and unhide to run some of the scans we install them all with:
 
 ```bash
-sudo pacman -S rkhunter
+sudo pacman -S rkhunter net-tools unhide
 ```
 
 Before using for first time:
@@ -35,8 +35,9 @@ Before using for first time:
 ```bash
 sudo rkhunter --propupd
 ```
+The above command takes a snapshot of critical system files and whitelist them, the if anything changes it will alert.
 
-To update database:
+To update:
 
 ```bash
 sudo rkhunter --update
