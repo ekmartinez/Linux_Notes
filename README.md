@@ -271,9 +271,12 @@ To connect to the device:
 ```bash
 [bluetooth]# connect <mac address>
 ```
+Most devices will connect back in the future, if they don't run the following:
 
-You will only need to perform these procedures once
-per device if you enabled the bluetooth service.
+```bash
+[bluetooth]# trust <mac address>
+```
+
 
 ## Security
 
