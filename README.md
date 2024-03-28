@@ -7,7 +7,8 @@ This repositories contains personal notes on the installation, configuration and
 This area will contain the most commonly used Linux commands.
 
 * System administration
-* Permissions
+* Process Management
+* File Permissions
 * Searching
 
 ## System Administration

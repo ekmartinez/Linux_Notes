@@ -1,16 +1,64 @@
-## Security
+# Security
 
 This area has instuctions on installing and configuring security and privacy software on Linux.
 
-* Firewalls
+* Hardware Vulnerabilities
+* Malware Scanner
+* Firewall
 * IDS
 * VPN
 * DNS
-## Firewall
+
+## Hardware Vulnerabilities
+
+Scan your system to see if you have known hardware vulnerabilities:
+
+```bash
+grep -r . /sys/devices/system/cpu/vulnerabilities/
+```
+
+## Malware scanner
+
+Scan for malware with rkhunter.
+
+Location of configuration file: etc/rkhunter.conf
+Location of last results: /var/log/rkhunter.log
+
+Installation:
+
+```bash
+sudo pacman -S rkhunter
+```
+
+Before using for first time:
+
+```bash
+sudo rkhunter --propupd
+```
+
+To update database:
+
+```bash
+sudo rkhunter --update
+```
+
+To run a scan:
+
+```bash
+sudo rkhunter --check --sk
+```
+
+To validate config file:
+
+```bash
+sudo rkhunter --config-check
+```
+
+## Firewal
 
 ### UFW - Uncomplicated Firewall 
 
-Uncomplicated Firewall is an easy to use yet powerfull firewall front-end for iptables on Linux.
+Uncomplicated Firewall is an easy to use yet powerfull firewall front-end for iptables.
 
 ```bash
 #Installation
