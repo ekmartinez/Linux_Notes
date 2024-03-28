@@ -9,6 +9,7 @@
 :set softtabstop=4
 :set mouse=a
 :set completeopt-=preview " For No Preview
+:set clipboard=unnamedplus " Copy to system's clipboard with +y (wl-clipboard needed)
 
 " install vim-plug
 call plug#begin()
