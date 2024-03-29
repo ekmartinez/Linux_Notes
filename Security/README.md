@@ -116,13 +116,130 @@ sudo ufw status
 
 ### Snort 3
 
-Install snort3 from the AUR:
+The following is a multi-step process of installing, configuring and using snort.
+
+Installation from the AUR:
 
 ```bash
 yay -S snort 
 ```
 
-The configuration file is located at: /etc/snort/snort.lua, but you can use your own configuration when running snort.  For example to run snort in alert mode:
+The configuration file is located at: /etc/snort/snort.lua.
+
+Modified Section 5 of the configuration and make sure to include the following lines:
+
+```bash
+enable_builtin_rules = true,
+include = "/etc/snort/rules/local.rules",
+```
+
+This tells snort to use the builtin rules along with the local rules which will be populated by Pulled Pork.
+
+**Pulled Pork 3**
+
+To install pulledpork3 follow the below procedures:
+
+```bash
+git clone https://github.com/shirkdog/pulledpork3.git
+cd pulledpork3
+
+sudo mkdir /usr/local/etc/pulledpork/
+sudo cp etc/pulledpork.conf /usr/local/etc/pulledpork/
+
+sudo mkdir /usr/local/bin/pulledpork/
+sudo cp pulledpork.py /usr/local/bin/pulledpork/
+sudo cp -r lib/ /usr/local/bin/pulledpork/
+```
+
+This will download pulledpork3 from the oficial sources and copy the python file, configuration and libraries to the proper paths.
+
+Just to double check:
+
+The python file should be at: /usr/local/bin/pulledpork/pulledpork.py
+
+The configuration file should be at: /usr/local/etc/pulledpork/pulledpork.conf
+
+To see if working:
+
+```bash
+/usr/local/bin/pulledpork/pulledpork.py
+```
+
+Now into the configuration file:
+
+1. Select rulesets to download.
+2. Specify snort path (/bin/snort).
+3. Uncoment and edit local_rules path.
+
+Now run pulledpork:
+
+```bash
+sudo /usr/local/bin/pulledpork/pulledpork.py  -c /usr/local/etc/pulledpork/pulledpork.conf 
+```
+
+Note that you may get the following error:
+
+ERROR: `sorule_path` is configured but is not a directory:  /usr/local/etc/so_rules/
+
+Fix by creating the directory:
+
+```bash
+sudo mkdir /usr/local/etc/so_rules/
+```
+
+After running againg you may get the following error:
+
+WARNING: Unable to load rules archive:  422 Client Error: Unprocessable Entity for url: https://snort.org/rules/snortrules-snapshot-31830.tar.gz?oinkcode=<hidden>
+
+For this one you will need to edit the actual pulledpork.py file and hard code the rule's http address.
+
+So you need to change this:
+
+```python
+RULESET_URL_SNORT_REGISTERED = 'https://snort.org/rules/snortrules-snapshot-<VERSION>.tar.gz'
+```
+
+To the latest rules on snorts.org website.  A the time of this writting the latest version was 31470. So we make the change as follows:
+
+```python
+RULESET_URL_SNORT_REGISTERED = 'https://snort.org/rules/snortrules-snapshot-31470.tar.gz'
+```
+
+Then we run pulledpork again and we may get the following error:
+
+FileNotFoundError: [Errno 2] No such file or directory: '/usr/local/etc/rules/pulledpork.rules'
+
+We fix this one by:
+
+```bash
+cd /usr/loca/etc/
+mkdir rules
+sudo nvim pulledpork.rules
+:wq!
+```
+
+Then we run pullpork again and we should have the following results:
+
+Processing Registered ruleset
+loaded local rules file:  Rules(loaded:1, enabled:1, disabled:0) from /etc/snort/rules/local.rules
+Preparing to modify rules by sid file
+Completed processing all rulesets and local rules:
+ - Collected Rules:  Rules(loaded:50018, enabled:9800, disabled:40218)
+ - Collected Policies:
+    - Policy(name:security, rules:22241)
+    - Policy(name:balanced, rules:9800)
+    - Policy(name:none, rules:0)
+    - Policy(name:connectivity, rules:587)
+    - Policy(name:max-detect, rules:40259)
+Writing rules to:  /usr/local/etc/rules/pulledpork.rules
+Program execution complete.
+
+Consider it done!
+
+The whole process may be very tedious, but lets have in my mind that Snort3 is a new program whith a lot of new features that is not compatible with the configurations and rules of snort2.  Lets consider it a miracle that we have this amazing free tool available to download, install and use on Arch Linux directly from the AUR.
+
+
+Running snort example:
 
 ```bash
 sudo snort -c /etc/snort/snort.lua -i wlan0 --daq-dir /usr/lib/daq -A alert_fast 
@@ -138,11 +255,9 @@ Where:
 
 -A = In this case alert_fast but it can be started in log mode.
 
+-R = This flag is used to use a specifi rules file. (Usefull when analyzing pcap files)
 
-**Pulled Pork**
-
-In process.....
-
+Test was succesful at the time of this writting!
 
 ## Virtual Private Network
 
