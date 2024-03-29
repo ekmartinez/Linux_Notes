@@ -5,9 +5,9 @@ This area has instuctions on installing and configuring security and privacy sof
 * Hardware Vulnerabilities
 * Malware Scanner
 * Firewall
-* IDS
-* VPN
+* IDS / IPS
 * DNS
+* VPN
 
 ## Hardware Vulnerabilities
 
@@ -62,101 +62,88 @@ sudo rkhunter --config-check
 
 Uncomplicated Firewall is an easy to use yet powerfull firewall front-end for iptables.
 
-```bash
-#Installation
+Installation UFW:
+
+```bash 
 sudo pacman -Sy ufw
+```
 
-#Start service with systemd
+Start service:
+
+```bash
 sudo systemctl start ufw.service
+```
 
-#Enable ufw on startup using systemd
+Enable service:
+
+```bash
 sudo systemctl enable ufw.service
+```
 
-#Basic rules (Example modify as needed)
+Basic rules:
+
+To deny all:
+
+```bash
 sudo ufw defualt deny
+```
+
+To allow a rate limited ssh:
+
+```bash
 sudo limit ssh
+```
+
+To allow all traffic from subnet:
+
+```bash
 sudo ufw from 192.168.0.0/24
+```
 
-#Onetime command to enable the firewall
+Onetime command to enable the firewall:
+
+```bash
 sudo ufw enable
+```
 
-#See if working
+See if working:
+
+```bash
 sudo ufw status 
 ```
+
 ## Intrusion Detection System
 
-### Suricata - Installation & Configuration
+### Snort 3
 
-These instructions where successfully tested on Ubuntu Server & Fedora 37, but haven't been able to configure the update-sources correctly on Arch.
-
-**Quickstart Guide**
-
-https://docs.suricata.io/en/latest/quickstart.html
+Install snort3 from the AUR:
 
 ```bash
-suricata -h (--help)
-
+yay -S snort 
 ```
-**Installation**
 
-sudo apt-get install suricata jq
+The configuration file is located at: /etc/snort/snort.lua, but you can use your own configuration when running snort.  For example to run snort in alert mode:
 
-**Configuration**
-
-Get network interface name
 ```bash
-ip addr
-```
-Edit Configuration File
-```bash
-sudo nvim /etc/suricata/suricata.yaml
+sudo snort -c /etc/snort/snort.lua -i wlan0 --daq-dir /usr/lib/daq -A alert_fast 
+``` 
 
-HOME_NET = ['192.168.0.0/24']
+Where:
 
-Capture settings
-	af-packet:
-		interface: enp1s0
-		cluster-id: 99
-		cluster-type: cluster_flow
-		defrag: yes
-		use-mmap: yes
-		tpacket-v3: yes
-```
+-c = configuration file
 
-Update, Start & Enable Suricata Service
-```bash
-sudo suricata-update
-sudo systemctl start suricata
-sudo systemctl enable suricata
-```
+-i = interface name
 
-Test configuration
-```bash
-sudo tail /var/log/suricata/suricata.log
+--daq-dir = location of daq (for some reason throws error if not included).
 
-#Statistics
-sudo tail -f /var/log/suricata/stats.log
+-A = In this case alert_fast but it can be started in log mode.
 
-#Test if working
-sudo tail -f /var/log/suricata/fast.log
-curl http://testmynids.org/uid/index.html
 
-#A nicer output:
-sudo tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="alert")'
+**Pulled Pork**
 
-#More detail about each alert
-sudo tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="stats")|.stats.capture.kernel_packets'
-sudo tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="stats")'
+In process.....
 
-#See additional sources
-sudo suricata-update list-sources
 
-#Enable source
-sudo suricata-update enable-source <source_name>
-
-Update Sources
-sudo suricata-update update-sources
-```
 ## Virtual Private Network
 
 **OpenVpn**
@@ -178,18 +165,20 @@ Assuming you have access to a VPN service with Wireguard support.
 3. Move (or create) configuration.conf at /etc/wireguard
 4. Start / enable service.
 
-Install Wireguard client
+Install Wireguard client:
 
 ```bash
 sudo pacman -Sy wireguard-tools 
 ```
 
-Move configuration file
+Move configuration file:
+
 ```bash
 mv configuration.conf /etc/wireguard/configuration.conf
 ```
 
-Connect
+Connect:
+
 ```bash
 # Without the extension
 sudo wg-quick up configuration 
@@ -201,13 +190,13 @@ Depending on your network configuration you may get a resolvconf error. Install 
 sudo pacman -S openresolv
 ```
 
-See if working
+See if working:
 
 ```bash
 sudo wg
 ```
 
-Enable on boot
+Enable on boot:
 
 ```bash
 sudo systemctl enable wg-quick@iface.service
