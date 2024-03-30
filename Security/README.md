@@ -314,6 +314,11 @@ Start / Enable Service
 sudo systemctl start dnscrypt-proxy.service
 sudo systemctl enable dnscrypt-proxy.service
 ```
+To see if any programs are using port 53, run:
+
+```bash
+ ss -lp 'sport = :domain'
+```
 
 ## Virtual Private Network
 
