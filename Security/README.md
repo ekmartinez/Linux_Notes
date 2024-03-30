@@ -288,7 +288,7 @@ Some Snort flags:
 Encrypt DNS traffic with dnscrypt-proxy.
 
 ```bash
-sudo dnscrypt-proxy
+sudo pacman -S dnscrypt-proxy
 ```
 
 The configuration file is located at: */etc/dnscrypt-proxy/dnscrypt-proxy.toml*
