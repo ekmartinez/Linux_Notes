@@ -2,12 +2,12 @@
 
 This area has instuctions on installing and configuring security and privacy software on Linux.
 
-* Hardware Vulnerabilities
-* Malware Scanner
-* Firewall
-* IDS / IPS
-* DNS
-* VPN
+* [Hardware Vulnerabilities](#Hardware-Vulnerabilities)
+* [Malware Scanner](#Malware-Scanner)
+* [Firewall](#Firewall)
+* [Intrusion Detection System](#Intrusion-Detection-System) 
+* [Encrypted DNS](#Encrypted-DNS)
+* [Virtual Private Network](#Vitual-Private-Network)
 
 ## Hardware Vulnerabilities
 
@@ -17,7 +17,7 @@ Scan your system to see if you have known hardware vulnerabilities:
 grep -r . /sys/devices/system/cpu/vulnerabilities/
 ```
 
-## Malware scanner
+## Malware Scanner
 
 Scan for malware with rkhunter.
 
@@ -56,7 +56,7 @@ To validate config file:
 sudo rkhunter --config-check
 ```
 
-## Firewal
+## Firewall
 
 ### UFW - Uncomplicated Firewall 
 
@@ -234,16 +234,14 @@ Completed processing all rulesets and local rules:
 Writing rules to:  /usr/local/etc/rules/pulledpork.rules
 Program execution complete.
 
-Consider it done!
-
-The whole process may be very tedious, but lets have in my mind that Snort3 is a new program whith a lot of new features that is not compatible with the configurations and rules of snort2.  Lets consider it a miracle that we have this amazing free tool available to download, install and use on Arch Linux directly from the AUR.
-
 
 Running snort example:
 
 ```bash
 sudo snort -c /etc/snort/snort.lua -i wlan0 --daq-dir /usr/lib/daq -A alert_fast 
 ``` 
+The programs works in the sense that it runs in listenting mode and displays alerts to the terminal, the only problem encountered that hasn't been solved is that it is not producing any logs.
+
 Snort Command Line:
 
 *https://docs.snort.org/start/help*
@@ -270,11 +268,17 @@ Some Snort flags:
 
 --daq-dir = location of daq (for some reason throws error if not included).
 
--A = In this case alert_fast but it can be started in log mode.
+-A = Specifies Alert mode. (alert_fast, alert_full, etc)
 
--R = This flag is used to use a specifi rules file. (Usefull when analyzing pcap files)
+-R = This flag is used to use a specify a rules file. (Usefull when analyzing pcap files)
 
 -T = Test configuration file.
+
+-l = Specifies location of logs.
+
+
+## Encrypted DNS
+
 
 ## Virtual Private Network
 
