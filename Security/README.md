@@ -7,7 +7,7 @@ This area has instuctions on installing and configuring security and privacy sof
 * [Firewall](#Firewall)
 * [Intrusion Detection System](#Intrusion-Detection-System) 
 * [Encrypted DNS](#Encrypted-DNS)
-* [Virtual Private Network](#Vitual-Private-Network)
+* [Virtual Private Network](#Virtual-Private-Network)
 
 ## Hardware Vulnerabilities
 
@@ -179,7 +179,9 @@ sudo /usr/local/bin/pulledpork/pulledpork.py  -c /usr/local/etc/pulledpork/pulle
 
 Note that you may get the following error:
 
+```bash
 ERROR: `sorule_path` is configured but is not a directory:  /usr/local/etc/so_rules/
+```
 
 Fix by creating the directory:
 
@@ -189,7 +191,9 @@ sudo mkdir /usr/local/etc/so_rules/
 
 After running againg you may get the following error:
 
+```bash
 WARNING: Unable to load rules archive:  422 Client Error: Unprocessable Entity for url: https://snort.org/rules/snortrules-snapshot-31830.tar.gz?oinkcode=<hidden>
+```
 
 For this one you will need to edit the actual pulledpork.py file and hard code the rule's http address.
 
@@ -206,8 +210,9 @@ RULESET_URL_SNORT_REGISTERED = 'https://snort.org/rules/snortrules-snapshot-3147
 ```
 
 Then we run pulledpork again and we may get the following error:
-
+```bash
 FileNotFoundError: [Errno 2] No such file or directory: '/usr/local/etc/rules/pulledpork.rules'
+```
 
 We fix this one by:
 
@@ -220,6 +225,7 @@ sudo nvim pulledpork.rules
 
 Then we run pullpork again and we should have the following results:
 
+```bash
 Processing Registered ruleset
 loaded local rules file:  Rules(loaded:1, enabled:1, disabled:0) from /etc/snort/rules/local.rules
 Preparing to modify rules by sid file
@@ -233,14 +239,15 @@ Completed processing all rulesets and local rules:
     - Policy(name:max-detect, rules:40259)
 Writing rules to:  /usr/local/etc/rules/pulledpork.rules
 Program execution complete.
-
+```
 
 Running snort example:
 
 ```bash
 sudo snort -c /etc/snort/snort.lua -i wlan0 --daq-dir /usr/lib/daq -A alert_fast 
 ``` 
-The programs works in the sense that it runs in listenting mode and displays alerts to the terminal, the only problem encountered that hasn't been solved is that it is not producing any logs.
+
+After testing, the programs works in the sense that it runs in listenting mode and displays alerts to the terminal, the only problem encountered that hasn't been solved is that it is not producing any logs.
 
 Snort Command Line:
 
@@ -276,9 +283,37 @@ Some Snort flags:
 
 -l = Specifies location of logs.
 
-
 ## Encrypted DNS
 
+Encrypt DNS traffic with dnscrypt-proxy.
+
+```bash
+sudo dnscrypt-proxy
+```
+
+The configuration file is located at: */etc/dnscrypt-proxy/dnscrypt-proxy.toml*
+
+In the configuration file:
+
+listen_addresses = ['127.0.0.1:53', '[::1]:53']
+
+If everything is correct there should be a resolvers file at: /var/cache/dnscrypt-proxy/public-resolvers.md.  If the file is not at the location finish setting up the service, restart and check again.  If it doesnt show up, then something may be wrong.
+
+This is a list of dns servers available to use by dnscrypt-proxy, but not all of the are secure.  To ensure you use only secured DNS servers you must edit some options in the configuration file:
+
+```bash
+dnscrypt_servers = true
+doh_servers = true
+require_dnssec = true
+require_nolog = true
+require_nofilter = true
+```
+Start / Enable Service
+
+```bash
+sudo systemctl start dnscrypt-proxy.service
+sudo systemctl enable dnscrypt-proxy.service
+```
 
 ## Virtual Private Network
 
