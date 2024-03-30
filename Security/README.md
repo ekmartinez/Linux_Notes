@@ -124,7 +124,7 @@ Installation from the AUR:
 yay -S snort 
 ```
 
-The configuration file is located at: /etc/snort/snort.lua.
+The configuration file is located at: `/etc/snort/snort.lua`
 
 Modified Section 5 of the configuration and make sure to include the following lines:
 
@@ -155,9 +155,9 @@ This will download pulledpork3 from the oficial sources and copy the python file
 
 Just to double check:
 
-The python file should be at: /usr/local/bin/pulledpork/pulledpork.py
+The python file should be at: `/usr/local/bin/pulledpork/pulledpork.py`
 
-The configuration file should be at: /usr/local/etc/pulledpork/pulledpork.conf
+The configuration file should be at: `/usr/local/etc/pulledpork/pulledpork.conf`
 
 To see if working:
 
@@ -291,13 +291,13 @@ Encrypt DNS traffic with dnscrypt-proxy.
 sudo pacman -S dnscrypt-proxy
 ```
 
-The configuration file is located at: */etc/dnscrypt-proxy/dnscrypt-proxy.toml*
+The configuration file is located at: `/etc/dnscrypt-proxy/dnscrypt-proxy.toml`
 
 In the configuration file:
 
 listen_addresses = ['127.0.0.1:53', '[::1]:53']
 
-If everything is correct there should be a resolvers file at: /var/cache/dnscrypt-proxy/public-resolvers.md.  If the file is not at the location finish setting up the service, restart and check again.  If it doesnt show up, then something may be wrong.
+If everything is correct there should be a resolvers file at: `/var/cache/dnscrypt-proxy/public-resolvers.md`.  If the file is not at the location finish setting up the service, restart and check again.  If it doesnt show up, then something may be wrong.
 
 This is a list of dns servers available to use by dnscrypt-proxy, but not all of the are secure.  To ensure you use only secured DNS servers you must edit some options in the configuration file:
 
@@ -338,7 +338,7 @@ Assuming you have access to a VPN service with Wireguard support.
 
 1. Download a configuration file(otherwise you need to setup manually).
 2. Install the Wireguard client.
-3. Move (or create) configuration.conf at /etc/wireguard
+3. Move (or create) configuration.conf at `/etc/wireguard`
 4. Start / enable service.
 
 Install Wireguard client:
