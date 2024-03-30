@@ -244,12 +244,29 @@ Running snort example:
 ```bash
 sudo snort -c /etc/snort/snort.lua -i wlan0 --daq-dir /usr/lib/daq -A alert_fast 
 ``` 
+Snort Command Line:
 
-Where:
+*https://docs.snort.org/start/help*
+
+Listing command line options available:
+
+```bash
+snort -?
+```
+
+Getting help on the "-A" command line option:
+
+```bash
+snort --help-options A
+```
+
+Some Snort flags:
 
 -c = configuration file
 
 -i = interface name
+
+-r = Pcap to read.
 
 --daq-dir = location of daq (for some reason throws error if not included).
 
@@ -257,7 +274,7 @@ Where:
 
 -R = This flag is used to use a specifi rules file. (Usefull when analyzing pcap files)
 
-Test was succesful at the time of this writting!
+-T = Test configuration file.
 
 ## Virtual Private Network
 
