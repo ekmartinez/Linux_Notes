@@ -1,263 +1,261 @@
-# Arch Linux Installation Personal Guide
+# Arch Linux Installation
 
-**General Steps**
+With Unified Kerkel image,  btrfs, luks2 & secure boot.
 
-1. Prepare installation media
-2. Establish Network Connectivity
-3. Storage Partion
-4. Luks setup
-5. Prepare File Systems
-5. Base system installation
-6. Install Desktop Environment (Optional)
+**Content**
 
-Note: Procedures herein assumes UEFI.
+1. [Disk Partition](#Disk-Partition)
+2. [Disk Encryption](#Disk-Encryption)
+3. [Format Disks](#Format-Disks)
+4. [Mount Partitions](#Mount-Partitions)
+5. [System Installation](#System-Installation)
+6. [System Configuration](#System-Configuration)
+10. [Secure Boot Configuration](#Secure-Boot-Configuration)
+7. [Unified Kernel Image](#Unified-Kernel-Image)
+8. [Bootloader Setup](#Bootloader-Setup)
+9. [Reboot](#Reboot)
 
-## Prepare Media 
+## Disk Partition
 
-Download and prepare the media for the latest ISO from the Arch Linux website (https://archlinux.org/download/)
-
-Verify signature
+Look for your disk drive:
 
 ```bash
+root@archiso ~ # lsblk
 
-pacman-key -v archlinux-version-x86_64.iso.sig
+NAME  MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0   7:0    0 787.8M  1 loop /run/archiso/airootfs
+sda     8:0    0    25G  0 disk 
+sr0    11:0    1 955.3M  0 rom  /run/archiso/bootmnt
+```
+
+Prepare for partition:
+
+```bash
+sgdisk -Z /dev/sda
+```
+
+Create partitions:
+
+1. ef00 EFI 512M Boot Partition
+2. 8304 Remainder of Disk as Linux Partition
+
+```bash
+sgdisk -n1:0:+512M -t1:ef00 -c1:EFI -N2 -t2:8304 -c2:encrypted /dev/sda
 
 ```
 
-## Storage Partition
-
-Check for different drives and partitions with:
+Finalize:
 
 ```bash
-
-lsblk
-
+partprobe -s /dev/sda
 ```
 
-Partition:
+Confirm:
 
 ```bash
+root@archiso ~ # lsblk /dev/sda
 
-gdisk /dev/nvme0n1
-
+NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sda      8:0    0   25G  0 disk 
+├─sda1   8:1    0  512M  0 part 
+└─sda2   8:2    0 24.5G  0 part
 ```
 
-* Create boot partition with n, default number, default first sector, last sector at +512M and select ef00 “EFI System” as the type.
+## Disk Encryption
 
-* Create root partition with n, default number, default first sector, default last sector and select 8300 “Linux filesystem” as the type.
-
-## Luks
+Encrypt and open Linux System Partition:
 
 ```bash
-
-cryptsetup -y -v luksFormat /dev/nvme0n1p2
-
+cryptsetup luksFormat --type luks2 /dev/sda2
+cryptsetup luksOpen /dev/sda2 encrypted
 ```
-Type YES and the new encryption password to encrypt the root partition.
 
-Open the encrypted partition.
+## Format Disks
+
+1. Boot Partition as Fat 32.
+2. System Partition as btrfs.
 
 ```bash
-
-cryptsetup open /dev/nvme0n1p2 cryptroot
-
+mkfs.vfat -F32 -n EFI /dev/sda1
+mkfs.btrfs -f -L encrypted /dev/mapper/encrypted
 ```
 
-## Prepare File Systems
+## Mount Partitions
 
-Format the files systems:
+Mount boot, system partitions and create btrfs subvolumes.
 
 ```bash
+mount /dev/mapper/encrypted /mnt
+mkdir /mnt/efi
+mount /dev/sda1 /mnt/efi
+btrfs subvolume create /mnt/home
+btrfs subvolume create /mnt/srv
+btrfs subvolume create /mnt/var
+btrfs subvolume create /mnt/var/log
+btrfs subvolume create /mnt/var/cache
+btrfs subvolume create /mnt/var/tmp
+````
 
-#Create boot file system.
-mkfs.fat -F32 /dev/nvme0n1p1
+## System Installation
 
-#Create root file system.
-mkfs.ext4 /dev/mapper/cryptroot
+Setup reflector:
 
+```base
+reflector --country us --age 24 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
 ```
 
-Mount File Systems
+Install base system along with some additional packages:
 
 ```bash
-
-#mount the root file system
-mount /dev/mapper/cryptroot /mnt
-
-#create boot directory
-mkdir /mnt/boot
-
-#mount boot file system
-mount /dev/nvme0n1p1 /mnt/boot
+pacstrap -K /mnt base base-devel linux linux-firmware linux-headers intel-ucode vim cryptsetup btrfs-progs dosfstools util-linux sbctl networkmanager sudo 
 ```
-Comfirm with:
+## System Configuration
 
-```bash 
-
-lsblk
-
-```
-
-Swapfile
+Uncomment en_US.UTF-8 UTF-8 in the `/etc/locale.gen`
 
 ```bash
-
-#create swap file
-dd if=/dev/zero of=/mnt/swapfile bs=1M count=24576 status=progress
-
-#set permissions
-chmod 600 /mnt/swapfile
-
-#make it an actual swap file
-mkswap /mnt/swapfile
-
-#activate
-swapon /mnt/swapfile
-
-```
-
-## Installation
-
-Install base system
-
-```bash
-
-#Optimize mirror list
-reflector --country US --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-
-#Refresh repositories
-pacman -Syyy
-
-#Install Arch Linux
-pacstrap /mnt base base-devel linux linux-firmware linux-headers intel-ucode mkinitcpio lvm2 vim  
-```
-
-Generate fstab file
-
-```bash
-
-genfstab -U /mnt >> /mnt/etc/fstab
-
-```
-
-Enter into root environment
-
-```bash
-
-arch-chroot /mnt
-
-```
-
-Set Locales
-
-```bash
-
-ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
-hwclock --systohc
- 
-#Uncomment en_US.UTF-8 UTF-8
 vim /etc/locale.gen
-
-#Generate locales
-locale-gen
-echo LANG=en_US.UTF-8 > /etc/locale.conf
-
 ```
 
-Set Hostname
+Run systemd-firstboot to finish locale settings:
 
 ```bash
-echo arch > /etc/hostname
-
-vim /etc/hosts and insert the following lines:
-
-127.0.0.1     localhost
-::1           localhost
-127.0.1.1     arch.localdomain        arch
-
+systemd-firstboot --root /mnt --prompt
 ```
 
-# Set Root Password
+Generate locales:
 
 ```bash
-passwd
+arch-chroot /mnt locale-gen
 ```
 
-# Configure Initramfs
+Create non-root user, add it to the wheel group and set a password:
 
 ```bash
-vim /etc/mkinitcpio.conf 
-# Add encrypt between block and filesystems in the HOOKS array.
-
-Run mkinitcpio -P
+arch-chroot /mnt useradd -G wheel -m user_name 
+arch-chroot /mnt passwd user_name
 ```
 
-# Install Boot Loader
+Give sudo privileges to the user:
+
+At `/mnt/etc/sudoers` uncomment:
 
 ```bash
-#To install the GRUB package, network manager
-
-pacman -S grub efibootmgr networkmanager 
- 
-#Get the UUID of the device
-blkid -s UUID -o value /dev/nvme0n1p2
- 
-#To disable GRUB timeout.  
-vim /etc/default/grub and set GRUB_TIMEOUT=0
-
-#set GRUB_CMDLINE_LINUX="" while replacing “xxxx” with the UUID of the nvme0n1p2 device to tell GRUB about our encrypted file system
-GRUB_CMDLINE_LINUX="cryptdevice=UUID=xxxx:cryptroot"
- 
-#Install & Configure GRUB
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-grub-mkconfig -o /boot/grub/grub.cfg
+% wheel ALL=(ALL) ALL
 ```
-# Finish Installation
+
+## Unified Kernel Image
+
+Create a kernel cmdline file:
 
 ```bash
-systemctl enable NetworkManager.service
-exit
-reboot
+echo "quiet rw" >/mnt/etc/kernel/cmdline
 ```
-Finishing steps
+
+Create EFI folder structure:
 
 ```bash
-#Add swapfile to the fstab configuration. 
-vim /etc/fstab
-/swapfile none swap defaults 0 0 
-
--Add  non root user
-useradd -m -g users -G wheel -s /bin/bash user_name
-
-#Set password for new user
-passwd user_name
-
-#Install & configure sudo 
-EDITOR=vim visudo
-uncomment % wheel ALL=(ALL) ALL
-
-exit
-login as user_name
+mkdir -p /mnt/efi/EFI/Linux
 ```
 
-## Optional(Install a Desktop Environment)
+Modify the HOOKS to include systemd at `/mnt/etc/mkinitcpio.conf`:
 
-Gnome
+So it looks like this:
+
 ```bash
-sudo pacman -S gnome
-sudo systemctl enable gdm
+HOOKS = HOOKS=(base systemd autodetect modconf kms keyboard sd-vconsole sd-encrypt block filesystems fsck)
 ```
 
-KDE
+Modify the `/mnt/etc/mkinitcpio.d/linux.preset` file so it looks like this:
+
 ```bash
-sudo pacman -Sy plasma plasma-wayland-session sddm konsole
-sudo systemctl enable sddm
-sudo systemctl start sddm
+ALL_config="/etc/mkinitcpio.conf"
+ALL_kver="/boot/vmlinuz-linux"
+
+PRESETS=('default' 'fallback')
+
+#default_config="/etc/mkinitcpio.conf"
+#default_image="/boot/initramfs-linux.img"
+default_uki="/efi/EFI/Linux/arch-linux.efi"
+default_options="--splash /usr/share/systemd/bootctl/splash-arch.bmp"
+
+#fallback_config="/etc/mkinitcpio.conf"
+#fallback_image="/boot/initramfs-linux-fallback.img"
+fallback_uki="/efi/EFI/Linux/arch-linux-fallback.efi"
+fallback_options="-S autodetect"
 ```
-Xfce
+
+Generate the Unified Kernel Images:
+
 ```bash
-sudo pacman -S xfce4 xfce4-goodies
-sudo pacman -S lightdm lightdm-gtk-greeter
-sudo systemctl enable lightdm.service -f
-sudo sytemctl start lightdm.service
+arch-chroot /mnt mkinitcpio -P
 ```
+
+## Bootloader Setup
+
+Make sure you have the following efi partition file structure: 
+
+`/mnt/efi/EFI/Linux`
+
+```bash
+ls -lR /mnt/efi
+```
+
+## Bootloader Setup
+
+Install the bootloader:
+
+```bash
+arch-chroot /mnt bootctl install --esp-path=/efi
+```
+
+## Reboot
+
+Enable services:
+
+```bash
+systemctl --root /mnt enable systemd-resolved systemd-timesyncd NetworkManager
+systemctl --root /mnt mask systemd-networkd
+```
+
+Reboot into firmware setup:
+
+```bash
+sync
+systemctl reboot --firmware-setup
+```
+
+After rebooting, enter to the bios setup and clear secure boot keys.
+
+## Secure Boot Configuration
+
+Create Secure Boot keys:
+
+```bash
+sudo sbctl create-keys
+```
+
+Enroll secure boot keys:
+
+```bash
+sudo sbctl enroll-keys -m
+```
+
+Sign the boot files:
+
+```bash
+sudo sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
+sudo sbctl sign -s /efi/EFI/BOOT/BOOTX64.EFI
+sudo sbctl sign -s /efi/EFI/Linux/arch-linux.efi
+sudo sbctl sign -s /efi/EFI/Linux/arch-linux-fallback.efi
+```
+
+After rebooting, secure boot you automatically be enabled and you should have your encrypted, secured enabled Arch Linux ready to be used.
+
+Unfortunately, these procedures fail to authenticate my image on my HP ZBOOK G3 for some reason, eventhough I was able to successfully test them on a virtual machine.
+
+This information was adapted from:
+
+Walian
+https://www.walian.co.uk/arch-install-with-secure-boot-btrfs-tpm2-luks-encryption-unified-kernel-images.html
+
