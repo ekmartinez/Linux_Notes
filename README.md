@@ -168,7 +168,7 @@ HOOKS = HOOKS=(base systemd autodetect modconf kms keyboard sd-vconsole sd-encry
 
 Modify the `/mnt/etc/mkinitcpio.d/linux.preset` file so it looks like this:
 
-``bash
+```bash
 ALL_config="/etc/mkinitcpio.conf"
 ALL_kver="/boot/vmlinuz-linux"
 
