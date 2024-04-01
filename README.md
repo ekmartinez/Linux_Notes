@@ -19,7 +19,7 @@ With Unified Kerkel image,  btrfs, luks2 & secure boot.
 
 Look for your disk drive:
 
-``bash
+```bash
 root@archiso ~ # lsblk
 
 NAME  MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
@@ -258,5 +258,4 @@ This information was adapted from:
 
 Walian
 https://www.walian.co.uk/arch-install-with-secure-boot-btrfs-tpm2-luks-encryption-unified-kernel-images.html
-
 
