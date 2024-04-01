@@ -2,19 +2,29 @@
 
 This area has instuctions on installing and configuring security and privacy software on Linux.
 
-* [Hardware Vulnerabilities](#Hardware-Vulnerabilities)
+* [General Procedures](#General-Procedures)
 * [Malware Scanner](#Malware-Scanner)
 * [Firewall](#Firewall)
 * [Intrusion Detection System](#Intrusion-Detection-System) 
 * [Encrypted DNS](#Encrypted-DNS)
 * [Virtual Private Network](#Virtual-Private-Network)
 
-## Hardware Vulnerabilities
+## General Procedures
 
-Scan your system to see if you have known hardware vulnerabilities:
+**Known Hardware Vulnerabilities**
+
+Scan the hardware for vulnerabilties:
 
 ```bash
 grep -r . /sys/devices/system/cpu/vulnerabilities/
+```
+
+**Lock the root account**
+
+After setting up sudo:
+
+```bash
+sudo passwd --lock root
 ```
 
 ## Malware Scanner
