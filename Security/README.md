@@ -304,7 +304,7 @@ First see is there are services using port 53, run:
 ```bash
  ss -lp 'sport = :domain'
 ```
-Nothing should be shown, if it do, uninstall the program or service. If systemd is resolving, disable it:
+Nothing should be shown, if it does, uninstall the program or service. If systemd is resolving, disable it:
 
 ```bash
 systemctl stop systemd-resolved
