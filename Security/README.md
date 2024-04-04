@@ -126,6 +126,8 @@ sudo ufw status
 
 ### Snort 3
 
+Note: This is better to install from source.
+
 The following is a multi-step process of installing, configuring and using snort.
 
 Installation from the AUR:
@@ -297,6 +299,18 @@ Some Snort flags:
 
 Encrypt DNS traffic with dnscrypt-proxy.
 
+First see is there are services using port 53, run:
+
+```bash
+ ss -lp 'sport = :domain'
+```
+Nothing should be shown, if it do, uninstall the program or service. If systemd is resolving, disable it:
+
+```bash
+systemctl stop systemd-resolved
+systemctl disable systemd-resolved
+```
+
 ```bash
 sudo pacman -S dnscrypt-proxy
 ```
@@ -307,9 +321,7 @@ In the configuration file:
 
 listen_addresses = ['127.0.0.1:53', '[::1]:53']
 
-If everything is correct there should be a resolvers file at: `/var/cache/dnscrypt-proxy/public-resolvers.md`.  If the file is not at the location finish setting up the service, restart and check again.  If it doesnt show up, then something may be wrong.
-
-This is a list of dns servers available to use by dnscrypt-proxy, but not all of the are secure.  To ensure you use only secured DNS servers you must edit some options in the configuration file:
+If everything is correct there should be a resolvers file at: `/var/cache/dnscrypt-proxy/public-resolvers.md`.  If the file is not at the location finish setting up the service, restart and check again.  If it doesnt show up, then something may be wrong. This is a list of dns servers available to use by dnscrypt-proxy, but not all of the are secure.  To ensure you use only secured DNS servers you must edit some options in the configuration file:
 
 ```bash
 dnscrypt_servers = true
@@ -324,10 +336,12 @@ Start / Enable Service
 sudo systemctl start dnscrypt-proxy.service
 sudo systemctl enable dnscrypt-proxy.service
 ```
-To see if any programs are using port 53, run:
+
+On OpenSuse:
 
 ```bash
- ss -lp 'sport = :domain'
+sudo systemctl start dnscrypt-proxy.socket
+sudo systemctl enable dnscrypt-proxy.socket
 ```
 
 ## Virtual Private Network
@@ -370,7 +384,7 @@ Connect:
 sudo wg-quick up configuration 
 ```
 
-Depending on your network configuration you may get a resolvconf error. Install it with the openresolv package, not the systemd one since it doesn't work. (at least for me).
+Depending on your network configuration you may get a resolvconf error. Install it with the openresolv package, not the systemd one since it doesn't work. (Not needed on OpenSuse).
 
 ```bash
 sudo pacman -S openresolv
