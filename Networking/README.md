@@ -83,7 +83,52 @@ Connect to a network:
 nmcli d wifi connect <ssid> password <password>
 ```
 
-That should do it.
+**Bridges**
+
+Display connections:
+
+```bash
+nmcli con show
+nmcli connection show --active 
+```
+
+Create a bridge:
+
+```bash
+sudo nmcli con add ifname br0 type bridge con-name br0
+```
+
+Add a slave:
+
+```bash
+sudo nmcli con add type bridge-slave ifname eno1 master br0
+```
+
+Confirm:
+
+```bash
+nmcli connection show
+```
+
+To turn the bridge on, you must first bring the ethernet connection down and the bring up the bridge:
+
+Bring down ethernet:
+
+```bash
+#Assuming name: Wired connection 1
+sudo nmcli con down "Wired connection 1"
+```
+
+Bring bridge up:
+```bash
+sudo nmcli con up br0
+```
+
+Confirm:
+
+```bash
+nmcli con show
+```
 
 ## Bluetooth Connections
 
