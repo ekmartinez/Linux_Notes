@@ -1,5 +1,7 @@
 # Neovim Setup Guide
 
+**This section is outdated and kept here for reference.  For a more up to date configuration copy the nvim folder included here into your ~/.config directory.**
+
 1. Install Neovim
 2. Install Vim-Plug
 3. Install-Update-Remove Plugins
@@ -16,7 +18,7 @@ Create configuration folder:
 mkdir ~/.config/nvim
 ```
 Create a vim.init file (or download from here) inside ~/.config/nvim
-
+ 
 ## Install Vim-Plug
 Go to https://github.com/junegunn/vim-plug and download vim-plug for neovim as follows:
 ```bash
