@@ -2,16 +2,66 @@
 
 General Notes on the Linux Operating System
 
-## General Commands
 
 This area will contain the most common commands on linux.
 
-* File navigation
-* Permissions
-* Searching
-* System administration
+* [System administration](#System-Administration)
+* [System Exploration](#System-Exploration)
+* [Permissions](#File-Permissions)
+* [Searching](#Searching)
 
-### Searching
+## System Administration
+
+This section includes tasks like adding users, groups, checking for hardware and package management.
+
+### Checking for Hardware
+
+Get a list of all the hardware:
+
+```bash
+lshw
+```
+
+To get a summarized list:
+
+```bash
+lshw -short
+```
+
+To get hardware in hmtl format:
+
+```bash
+lshw -html > file.html 
+```
+
+Checking for usb devices:
+
+```bash
+lsusb
+```
+The watch command allows for detecting usb devices as they are plugged in:
+
+```bash
+watch lsusb
+```
+
+To display cpu information:
+
+```bash
+lscpu
+```
+
+To display hard drive partitions:
+
+```bash
+lsblk
+```
+
+## System Exploration
+
+## File Permissions
+
+## Searching
 
 Finding files:
 
