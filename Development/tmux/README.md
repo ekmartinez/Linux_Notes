@@ -66,9 +66,9 @@ Suspend session: `Ctrl + b then Ctrl + z`
 
 ## Commands
 
-Access command prompt: `Ctrl + b then :
+Access command prompt: `Ctrl + b then :`
 
-Synchronize panes: `Ctrl + b then :setw synchronize-panes on
+Synchronize panes: `Ctrl + b then :setw synchronize-panes on`
 
 
 
