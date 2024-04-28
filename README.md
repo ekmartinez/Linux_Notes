@@ -57,7 +57,79 @@ To display hard drive partitions:
 lsblk
 ```
 
+### Package Administration
+
+**pacman**
+
+Pacman is the default repository for Arch:
+
+```bash
+#Refresh repository
+sudo pacman -Sy
+
+#Update System
+sudo pacman -Su
+
+#Install a package
+sudo pacman -S <package>
+
+#Remove package
+sudo pacman -Rs <package>
+```
+
+
+**flatpak**
+
+I recommend flatpak for some packages becuase it allows them to run in a sandbox.
+
+Install flatpak:
+
+```bash
+sudo pacman -S flatpak
+```
+
+To install flat packages, go to flathub.org and grab installation instructions for the desired app.
+
+```bash
+flatpak install com.exampleapp.ExampleApp
+```
+
+In order to run the flat app from wofi you will need to run the following command:
+
+```bash
+sudo ln -s /var/lib/flatpak/exports/bin/com.exampleapp.ExampleApp /usr/bin/com.exampleapp.ExampleApp
+```
+
 ## System Exploration
+
+List content of directory:
+
+```bash
+# Display content
+ls
+
+# Display content in list way:
+ls -l
+
+# Display content in list way including hidden files:
+ls -la
+```
+
+Change directories:
+
+```bash
+# Change to specified directory
+cd /
+
+# Change to previous directory
+cd .. 
+
+# Go back multiple levels
+cd ../..
+
+# Go to home folder
+cd -
+```
 
 ## File Permissions
 
