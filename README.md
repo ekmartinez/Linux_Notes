@@ -77,7 +77,9 @@ To change file permissions, you can use the `chmod` command in either symbolic o
 
 **Symbolic Mode**
 
-In symbolic mode, you specify the permission changes using the following syntax: `chmod [options] [permissions] [file]`. The options are:
+In symbolic mode, you specify the permission changes using the following syntax: `chmod [options] [permissions] [file]`. 
+
+The options are:
 
 * `u`: owner
 * `g`: group
@@ -99,7 +101,9 @@ chmod g+wx file.txt
 
 **Octal Mode**
 
-In octal mode, you specify the permission changes using a three-digit octal number, where each digit represents the permissions for the owner, group, and others, respectively. The digits are:
+In octal mode, you specify the permission changes using a three-digit octal number, where each digit represents the permissions for the owner, group, and others, respectively. 
+
+The digits are:
 
 * `0`: denied
 * `1`: execute only
