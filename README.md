@@ -61,6 +61,81 @@ lsblk
 
 ## File Permissions
 
+**Managing Permissions of Files on Linux**
+
+Each file and directory in a file system is assigned “owner” and “group” attributes. To manage file permissions, you can use the `chmod` command, which allows you to change the permissions for the owner, group, or others.
+
+**Understanding File Permissions**
+
+In Linux, file permissions are represented by a combination of three letters: `r`, `w`, and `x`, which stand for read, write, and execute permissions, respectively. Each letter can be present in one of three states: `-` (denied), `+` (allowed), or `=` (set to a specific value).
+
+The first character indicates whether the file is a directory (`d`) or a regular file (`-`). The next three characters represent the permissions for the owner, group, and others, respectively.
+
+**Changing File Permissions**
+
+To change file permissions, you can use the `chmod` command in either symbolic or octal mode.
+
+**Symbolic Mode**
+
+In symbolic mode, you specify the permission changes using the following syntax: `chmod [options] [permissions] [file]`. The options are:
+
+* `u`: owner
+* `g`: group
+* `o`: others
+* `a`: all (owner, group, and others)
+* `+`: add permission
+* `-`: remove permission
+* `=`: set permission
+
+For example:
+
+```bash
+# Adds read, write, and execute permissions to the owner
+chmod u+rwx file.txt
+
+# Adds write and execute permissions to the group
+chmod g+wx file.txt
+```
+
+**Octal Mode**
+
+In octal mode, you specify the permission changes using a three-digit octal number, where each digit represents the permissions for the owner, group, and others, respectively. The digits are:
+
+* `0`: denied
+* `1`: execute only
+* `2`: write only
+* `3`: write and execute
+* `4`: read only
+* `5`: read and execute
+* `6`: read and write
+* `7`: read, write, and execute
+
+For example:
+
+```bash
+# sets permissions to rwxr-x for the owner and r-x for the group and others
+
+chmod 755 file.txt
+```
+
+**Changing the Owner and Group**
+
+To change the owner and group of a file or directory, you can use the chown command. The syntax is: `chown [owner]:[group] [file]`. 
+
+For example:
+
+```bash
+# changes the file owner to number6 and the group to TheVillage
+
+chown number6:TheVillage file.txt
+```
+
+**Best practices**
+
+* Use the chmod command to set permissions for files and directories.
+* Use the chown command to change the owner and group of files and directories.
+* Use the ls command with the -la option to view the permissions of files and directories.
+
 ## Searching
 
 Finding files:
