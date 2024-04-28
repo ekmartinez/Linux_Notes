@@ -5,7 +5,7 @@ This area will has instructions on how to install and configure virtual machines
 Install the necesary packages:
 
 ```bash
-sudo pacman -S virt-manager virt-viewer qemu bridge-utils libguestfs dnsmasq
+sudo pacman -S virt-manager virt-viewer qemu bridge-utils libguestfs dnsmasq vde2 iptables ebtables openbsd-netcat
 ```
 
 Add your current user to to the libvirt group:

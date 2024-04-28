@@ -122,6 +122,69 @@ See if working:
 sudo ufw status 
 ```
 
+### Firewalld
+
+There may be circumstances where using ufw won't be practicable.  In such scenarios one can use `firewalld` which uses nftables by default. (In contrast ufw uses iptables).
+
+Installation:
+
+```bash
+sudo pacman -S firewalld
+```
+
+Start/Enable `firewalld.service`:
+
+```bash 
+sudo systemctl start firewalld.serice
+sudo systemctl enable firewalld.serice
+```
+To get the default zone:
+
+```bash
+sudo firewall-cmd --get-default-zone
+```
+
+To list all zones and their configuration:
+
+```bash
+sudo firewall-cmd --list-all-zones
+```
+To change zones:
+
+```bash
+sudo firewall-cmd --zone=desired_zone --change-interface=eth0 --permanent
+```
+
+To see the services enabled in a zone:
+
+```bash
+sudo firewall-cmd --zone=public --list-services
+```
+
+To add a port:
+
+```bash
+sudo firewall-cmd --zone=public --add-port=PORT_NUMBER/tcp --permanent
+```
+
+To add a service:
+
+```bash
+sudo firewall-cmd --zone=public --add-service=http --permanent
+```
+
+To remove a service:
+
+```bash
+sudo firewall-cmd --remove-service=ssh --zone=public --permanent
+```
+
+Reload firewall rules:
+
+```bash
+sudo firewall-cmd --reload
+```
+
 ## Intrusion Detection System
 
 ### Snort 3
