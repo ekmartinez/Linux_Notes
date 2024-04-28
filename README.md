@@ -136,9 +136,9 @@ chown number6:TheVillage file.txt
 
 **Best practices**
 
-* Use the chmod command to set permissions for files and directories.
-* Use the chown command to change the owner and group of files and directories.
-* Use the ls command with the -la option to view the permissions of files and directories.
+* Use the `chmod` command to set permissions for files and directories.
+* Use the `chown` command to change the owner and group of files and directories.
+* Use the `ls` command with the `-la` option to view the permissions of files and directories.
 
 ## Searching
 
