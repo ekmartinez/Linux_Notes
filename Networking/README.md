@@ -83,6 +83,18 @@ Connect to a network:
 nmcli d wifi connect <ssid> password <password>
 ```
 
+To deactivate connection:
+
+```bash
+nmcli con down <ssid>
+```
+
+To activate connection:
+
+```bash
+nmcli con up <ssid>
+```
+
 **Bridges**
 
 Display connections:

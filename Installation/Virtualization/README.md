@@ -11,7 +11,9 @@ sudo pacman -S virt-manager virt-viewer qemu bridge-utils libguestfs dnsmasq vde
 Add your current user to to the libvirt group:
 
 ```bash
-usermod -G libvirt -a $(whoami)
+sudo usermod -G libvirt -a $(whoami)
+sudo usermod -G kvm -a $(whoami)
+
 ```
 
 Navigate to /etc/libvirt/libvirtd.conf and uncomment the following lines:
@@ -32,4 +34,16 @@ unix_sock_ro_perms = "0777"
 unix_sock_ro_perms = "0770"
 
 ```
+Enable libvirt service:
+
+```bash
+sudo systemctl enable libvirtd.service
+```
+Ensure KVM's / QEMU's default networking is enabled and has started:
+
+```bash
+sudo virsh -c qemu:///system net-autostart default
+sudo virsh -c qemu:///system net-start default
+```
+
 
