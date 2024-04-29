@@ -128,7 +128,7 @@ cd ..
 cd ../..
 
 # Go to home folder
-cd -
+cd ~
 ```
 
 ## File Permissions
