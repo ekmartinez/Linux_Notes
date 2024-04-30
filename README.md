@@ -63,19 +63,74 @@ lsblk
 
 Pacman is the default repository for Arch:
 
+
+Refresh repository:
+
 ```bash
-#Refresh repository
 sudo pacman -Sy
+```
 
-#Update System
+Update System:
+
+```bash
 sudo pacman -Su
+```
 
-#Install a package
+Install a package
+
+```bash
 sudo pacman -S <package>
+```
 
-#Remove package
+Remove package
+
+```bash
 sudo pacman -Rs <package>
 ```
+
+Removes packages and dependencies:
+
+```bash
+sudo pacman -Rcns
+```
+
+Removes cached packages that are not installed:
+
+```bash
+sudo pacman -Sc
+```
+
+Empties cache:
+
+```bash
+sudo pacman -Scc
+```
+
+List all packages installed:
+
+```bash
+sudo pacman -Q
+```
+
+Displays more information:
+
+```bash
+sudo pacman -Q | more
+```
+
+List only explicitly installed:
+
+```bash
+sudo pacman -Qc
+```
+
+List how many installed packages:
+
+```bash
+sudo pacman -Q | wc -l
+```
+
+
 
 
 **flatpak**
