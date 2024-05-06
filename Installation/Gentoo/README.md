@@ -18,14 +18,14 @@ Use `cfdisk` to prepare the following partition structure:
 * Swap - 8G - Linux Swap
 * root - remainder - Linux File System
 
-Format Drives:
+**Format Drives:**
 
-Format EFI partition as Fat32
+EFI partition as Fat32
 
 ```bash
 mkfs.vfat -F 32 /dev/sda1
 ```
-Format root partion as ext4:
+Root partion as ext4:
 
 ```bash
 mkfs.ext4 /dev/sda3
@@ -100,8 +100,8 @@ If using the gentoo installation media use:
 
 ```bash
 arch-chroot /mnt/gentoo
-root #source /etc/profile
-root #export PS1="(chroot) ${PS1}"
+source /etc/profile
+export PS1="(chroot) ${PS1}"
 ```
 
 Else:
