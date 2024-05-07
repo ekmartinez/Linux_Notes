@@ -9,7 +9,6 @@ This is a very basic Gentoo Linux installation guide that has been based and ada
 * [Configuring The System](#Configuring-The-System)
 * [Installing a Bootloader](#Installing-a-Bootloader)
 
-
 ## Prepare disk
 
 Use `cfdisk` to prepare the following partition structure:
@@ -223,10 +222,20 @@ emerge --ask sys-kernel/linux-firmware sys-firmware/sof-firmware
 Install the microcode:
 
 ```bash
-sys-firmware/intel-microcode
+emerge --ask sys-firmware/intel-microcode
 ```
 
-Ensure that you have a `symlink` USE flag in your make.conf, then install Gentoo kernel sources and genkernel:
+Create a symbolic link to `/usr/src/linux` by usinng the eselect's kernel module:
+
+```bash
+eselect kernel list
+```
+
+```bash
+eselect kernel set <int>
+```
+
+Install kernel sources and genkernel:
 
 ```bash
 emerge -q sys-kernel/gentoo-sources installkernel genkernel
@@ -242,7 +251,6 @@ emerge --ask sys-apps/pciutils
 ```
 
 Now is time to configure the kernel, navigate to `/usr/src/linux` and run:
-
 
 ```bash
 make menuconfig 
@@ -276,15 +284,12 @@ PARTUUID=4f68bce3-e8cd-4db1-96e7-fbcaf984b709   /           xfs     defaults,noa
 ``` 
 **Install a logger**
 
-Installing a logger:
-
 ```bash 
 emerge --ask app-admin/sysklogd
 rc-update add sysklogd default
 ```
 
 TODO: syslog-ng
-
 
 **Configure Networking**
 
@@ -325,6 +330,16 @@ cd /etc/init.d
 ln -s net.lo net.eth0
 rc-update add net.eth0 default
 ```
+Add the hosts file:
+
+```bash
+# This defines the current system and must be set
+127.0.0.1     tux.homenetwork tux localhost
+  
+# Optional definition of extra systems on the network
+192.168.0.5   jenny.homenetwork jenny
+192.168.0.6   benny.homenetwork benny
+```
 
 Install wireless support:
 
@@ -343,7 +358,7 @@ passwd
 Mount the boot partition:
 
 ```bash
-mount /dev/sda1 /boot
+mount /dev/sda1 /boot/efi
 ```
 
 Add the following to your `make.conf`:
@@ -356,7 +371,7 @@ Install and Configure Grub:
 
 ```bash
 emerge --verbose sys-boot/grub:2
-grub-isntall --target=x86_64-efi --efi-directory=/boot
+grub-install --target=x86_64-efi --efi-directory=/boot
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
