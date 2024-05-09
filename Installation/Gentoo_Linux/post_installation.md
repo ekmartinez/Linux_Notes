@@ -17,7 +17,7 @@ chattr +i
 ```
 This will prevent any other program to edit the content of the file. Now you should at least be able to connect through your wired ethernet interface.
 
-For wireless you will see an wpa_supplicant error while booting up with a message stating that the configuration file does not exists. Create the file `` and add the following configuration:
+For wireless you will see an wpa_supplicant error while booting up with a message stating that the configuration file does not exists. Create the file `/etc/wpa_supplicant/wpa_supplicant.conf` and add the following configuration:
 
 ```bash
 # Allow users in the 'wheel` group to control wpa_supplicant
