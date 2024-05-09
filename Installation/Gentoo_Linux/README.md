@@ -354,6 +354,8 @@ At this point, you don't need this in order to install the system, but you dont 
 
 ```bash 
 emerge --ask app-admin/sysklogd
+```
+```bash 
 rc-update add sysklogd default
 ```
 
@@ -413,6 +415,8 @@ Install wireless support:
 
 ```bash
 emerge --ask net-wireless/iw net-wireless/wpa_supplicant
+```
+```bash
 emerge --ask net-wireless/wireless-tools
 ```
 
