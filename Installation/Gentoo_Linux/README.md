@@ -1,9 +1,8 @@
-# Gentoo Installation Personal Guide
+# Gentoo Linux Installation Guide 2024
 
-This is a very basic Gentoo Linux installation guide that has been based and adapted from the official documentation and other online sources. This distribution is too hard for me so I don't plan to use it as my daily driver.  I preffer easier alternatives like Microsoft Windows, but if I'm in the mood of using linux for some reason I use Linux Mint, Open Suse or Arch Linux.  This Gentoo guide is for educational purporses only.
+This is an installation guide on how to install Gentoo Linux (Openrc) on physical hardware  This installation guide was tested using a distribution kernel, nevertheless, instructions on how to compile a custom kernel will also be provided.  This guide also asumes UEFI.
 
-* [Prepare Disk](#Prepare-Disk)
-* [Stage 3](#Stage3)
+* [Prepare Disk](#Prepare-Disk) [Stage 3](#Stage3)
 * [Install Base System](#Install-Base-System)
 * [Compiling The Linux Kernel](#Compiling-The-Linux-Kernel)
 * [Configuring The System](#Configuring-The-System)
@@ -11,9 +10,9 @@ This is a very basic Gentoo Linux installation guide that has been based and ada
 
 ## Prepare disk
 
-Use `cfdisk` to prepare the following partition structure:
+Use `cfdisk` to prepare the following partition structure (choose gpt):
 
-* EFI - 100M - EFI 
+* EFI - 1G - EFI 
 * Swap - 8G - Linux Swap
 * root - remainder - Linux File System
 
@@ -44,7 +43,7 @@ mkdir --parents /mnt/gentoo
 mount /dev/sda3 /mnt/gentoo
 ```
 
-## Stage 3
+## Stage 3 Download & Installation
 
 Change to installation directory:
 
@@ -78,12 +77,15 @@ Configure the compiling options:
 nano /mnt/gentoo/etc/portage/make.conf
 ```
 
-Include a `MAKEOPTS` declaration, this defines how many parallel compilations shoud occur when installing packages.
-(Use ramsize/2)
+Configure the `make.conf` file:
 
 ```bash
+COMMON_FLAGS="-march=native -O2 -pipe"
 MAKEOPTS="-j8 -l8"
 ```
+
+* The `-march=native` flag specifies the name of the target architecture
+* The `MAKEOPTS` declaration, this defines how many parallel compilations shoud occur when installing packages. (Use ramsize/2).
 
 ## Install Base System
 
@@ -125,6 +127,8 @@ Configure Portage:
 
 ```bash
 mkdir --parents /etc/portage/repos.conf
+```
+```bash
 cp /usr/share/portage/config/repos.conf /etc/portage/repos.conf/gentoo.conf
 ```
 
@@ -133,11 +137,18 @@ Install a snapshot of the Gentoo ebuild repository:
 ```bash
 emerge-webrsync
 ```
+Even though is not necessary at this point, I doesn't hurt to update the repositories:
+
+```bash
+emerge --sync
+```
 
 Selecting mirrors:
 
 ```bash
 emerge --ask --verbose --oneshot app-portage/mirrorselect
+```
+```bash
 mirrorselect -i -o >> /etc/portage/make.conf
 ```
 
@@ -154,14 +165,22 @@ If necessary, change profile:
 eselect profile set <int>
 ```
 
-Create an accept license file (`etc/portage/package.license/kernel`):
+Configure CPU flags them to the system's architecture:
 
 ```bash
-sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE
-sys-firmware/intel-microcode intel-ucode
+emerge --ask --oneshot app-portage/cpuid2cpuflags
+```
+```bash
+echo "*/* $(cpuid2cpuflags)" > /etc/portage/package.use/00cpu-flags
 ```
 
-Update @world set
+Add the following line to you make.conf, to avoid licensing problems going forward:
+
+```bash
+echo ACCEPT_LICENSE="*" >> /etc/portage/make.conf
+```
+
+Update @world set:
 
 ```bash
 emerge --ask --verbose --update --deep --newuse @world
@@ -213,10 +232,17 @@ env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
 
 ## Compiling The Linux Kernel
 
+In this section we will cover how to configure and install the Linux kernel, two methods will be presented:
+
+* Distribution Kernel (Easy way)
+* Compiling from source (Hard way)
+
+A good idea would be installing first using the easy approach and once you ensure a working system you can later compile your own kerenel.  Regardless of the method chosen we begin with installing the firmware.  If you are using an Intel cpu you should also install the microcode (Amd's microcode is included in the firmware package).
+
 Installing the firmware:
 
 ```bash
-emerge --ask sys-kernel/linux-firmware sys-firmware/sof-firmware
+emerge --ask sys-kernel/linux-firmware
 ```
 
 Install the microcode:
@@ -225,50 +251,89 @@ Install the microcode:
 emerge --ask sys-firmware/intel-microcode
 ```
 
+Also with either approach, create and `installkernel` file in `etc/portage/package.use/installkernel` and add the following:
+
+```bash
+sys-kernel/installkernel dracut
+```
+
+This automates the kernel installation, the initramfs generation and ensures images are placed in the proper locations.
+
+
+**Distribution Kernel (Easy Way)***
+
+The distribution kernel can be installed by downloading a binary kernel or by compiling (automatically, without user intervention) the source code.
+
+To download the binary:
+
+```bash
+emerge --ask sys-kernel/gentoo-kernel-bin
+```
+
+To download the source binary:
+
+```bash
+emerge --ask sys-kernel/gentoo-kernel
+```
+
 Create a symbolic link to `/usr/src/linux` by usinng the eselect's kernel module:
 
 ```bash
 eselect kernel list
 ```
-
 ```bash
 eselect kernel set <int>
 ```
+The above step is used in both the easy and the hard methods.
 
-Install kernel sources and genkernel:
+**Compiling and Building the Linux kernel from source**
 
-```bash
-emerge -q sys-kernel/gentoo-sources installkernel genkernel
-```
-Read(*https://www.gentoo.org/support/news-items/2024-03-12-debianutils-installkernel.html*)
-
-Note: genkernel will only be used to generate an initramfs.
-
-Install pciutils, this allows to query hardware:
+Install `pciutils`, this allows you to know what kind of hardware you have which helps you in choosing which drivers gets compiled in the kernel.
 
 ```bash
 emerge --ask sys-apps/pciutils
 ```
 
-Now is time to configure the kernel, navigate to `/usr/src/linux` and run:
+As in the easy way, make sure you have `etc/portage/package.use/installkernel` with the following:
+
+```bash
+sys-kernel/installkernel dracut
+```
+Now get the `installkernel` package:
+
+```bash
+emerge --ask sys-kernel/installkernel
+```
+
+Install kernel sources:
+
+```bash
+emerge --ask sys-kernel/gentoo-sources
+```
+
+As in the easy method, create a symbolic link to `/usr/src/linux` by usinng the eselect's kernel module:
+
+```bash
+eselect kernel list
+```
+```bash
+eselect kernel set <int>
+```
+
+
+To configure the kernel, navigate to `/usr/src/linux` and run:
 
 ```bash
 make menuconfig 
 ```
 
-Now make the changes that you wish and remember to enable options for your system (ex. nvme support, etc).
+Now make the changes that you wish enable and/or disable drivers that not needed, and remember to enable options for your system (ex. nvme support, etc).
 
 When you are finished, save the config file and compile your kernel:
 
 ```bash
 make && make modules_install
 make install
-```
-
-Now generate an initramfs with genkernel:
-
-```bash
-genkernel --install --kernel-config=/usr/src/linux.config initramfs
 ```
 
 ## Configuring The System
@@ -278,11 +343,14 @@ genkernel --install --kernel-config=/usr/src/linux.config initramfs
 First run `blkid` and take note of the drive's uuids, your `/etc/fstab` should look something like this:
 
 ```bash 
-PARTUUID=c12a7328-f81f-11d2-ba4b-00a0c93ec93b   /boot        vfat    umask=0077                   0 2
-PARTUUID=0657fd6d-a4ab-43c4-84e5-0933c84b4f4f   none        swap    sw                           0 0
-PARTUUID=4f68bce3-e8cd-4db1-96e7-fbcaf984b709   /           xfs     defaults,noatime             0 1
+/dev/sda1   /boot   vfat    umask=0077  0 2
+/dev/sda2   none    swap    sw          0 0
+/dev/sda3   /       ext4    defaults,noatime    0 1
 ``` 
-**Install a logger**
+
+**Install a Log System** 
+
+You don't need this to install the base system, but you want to install a system with it.
 
 ```bash 
 emerge --ask app-admin/sysklogd
@@ -345,6 +413,7 @@ Install wireless support:
 
 ```bash
 emerge --ask net-wireless/iw net-wireless/wpa_supplicant
+emerge --ask net-wireless/wireless-tools
 ```
 
 Set a root password:
@@ -358,7 +427,7 @@ passwd
 Mount the boot partition:
 
 ```bash
-mount /dev/sda1 /boot/efi
+mount /dev/sda1 /boot
 ```
 
 Add the following to your `make.conf`:
@@ -370,8 +439,12 @@ echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
 Install and Configure Grub:
 
 ```bash
-emerge --verbose sys-boot/grub:2
+emerge --ask --verbose sys-boot/grub
+```
+```bash
 grub-install --target=x86_64-efi --efi-directory=/boot
+```
+```bash
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
