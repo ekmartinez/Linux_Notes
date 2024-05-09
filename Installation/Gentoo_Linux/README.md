@@ -277,7 +277,7 @@ To download the source binary:
 emerge --ask sys-kernel/gentoo-kernel
 ```
 
-Create a symbolic link to `/usr/src/linux` by usinng the eselect's kernel module:
+Create a symbolic link to `/usr/src/linux` by using the eselect's kernel module:
 
 ```bash
 eselect kernel list
