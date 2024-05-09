@@ -261,7 +261,7 @@ sys-kernel/installkernel dracut
 This automates the kernel installation, the initramfs generation and ensures images are placed in the proper locations.
 
 
-**Distribution Kernel (Easy Way)***
+**Distribution Kernel (Easy Way)**
 
 The distribution kernel can be installed by downloading a binary kernel or by compiling (automatically, without user intervention) the source code.
 
@@ -320,7 +320,6 @@ eselect kernel list
 ```bash
 eselect kernel set <int>
 ```
-
 
 To configure the kernel, navigate to `/usr/src/linux` and run:
 
