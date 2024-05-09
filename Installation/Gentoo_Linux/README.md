@@ -1,6 +1,6 @@
 # Gentoo Linux Installation Guide 2024
 
-This is an installation guide on how to install Gentoo Linux (Openrc) on physical hardware  This installation guide was tested using a distribution kernel, nevertheless, instructions on how to compile a custom kernel will also be provided.  This guide also asumes UEFI.
+This is an installation guide on how to install Gentoo Linux (Openrc) on physical hardware.  This guide was tested using a distribution kernel, nevertheless, instructions on how to compile a custom kernel will also be provided.  This guide also asumes UEFI.
 
 * [Prepare Disk](#Prepare-Disk) [Stage 3](#Stage3)
 * [Install Base System](#Install-Base-System)
