@@ -350,7 +350,7 @@ First run `blkid` and take note of the drive's uuids, your `/etc/fstab` should l
 
 **Install a Log System** 
 
-You don't need this to install the base system, but you want to install a system with it.
+At this point, you don't need this in order to install the system, but you dont want to install the system without it.
 
 ```bash 
 emerge --ask app-admin/sysklogd
