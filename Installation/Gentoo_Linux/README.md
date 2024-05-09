@@ -138,7 +138,7 @@ Install a snapshot of the Gentoo ebuild repository:
 ```bash
 emerge-webrsync
 ```
-Even though is not necessary at this point, I doesn't hurt to update the repositories:
+Even if it is not necessary at this point, it doesn't hurt to update the repositories:
 
 ```bash
 emerge --sync
