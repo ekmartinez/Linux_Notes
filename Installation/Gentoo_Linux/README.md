@@ -254,7 +254,7 @@ Install the microcode:
 emerge --ask sys-firmware/intel-microcode
 ```
 
-Also with either approach, create and `installkernel` file in `etc/portage/package.use/installkernel` and add the following:
+Also with either approach, create an `installkernel` file in `etc/portage/package.use/installkernel` and add the following:
 
 ```bash
 sys-kernel/installkernel dracut
