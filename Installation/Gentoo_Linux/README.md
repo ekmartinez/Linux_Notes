@@ -327,7 +327,7 @@ To configure the kernel, navigate to `/usr/src/linux` and run:
 make menuconfig 
 ```
 
-Now make the changes that you wish enable and/or disable drivers that not needed, and remember to enable options for your system (ex. nvme support, etc).
+Now make the changes that you wish, enable and/or disable drivers that are not needed, and remember to enable options for your system (ex. nvme support, etc).
 
 When you are finished, save the config file and compile your kernel:
 
