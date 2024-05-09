@@ -238,7 +238,7 @@ In this section we will cover how to configure and install the Linux kernel, two
 * Distribution Kernel (Easy way)
 * Compiling from source (Hard way)
 
-A good idea would be installing first using the easy approach and once you ensure a working system you can later compile your own kerenel.  Regardless of the method chosen we begin with installing the firmware.  If you are using an Intel cpu you should also install the microcode (Amd's microcode is included in the firmware package).
+A good idea would be to install Gentoo using the easy approach first, once you ensure you have a working system you can then compile your own kerenel.  Regardless of the method chosen we begin by installing the firmware.  If you are using an Intel cpu you should also install the microcode (Amd's microcode is included in the firmware package).
 
 Installing the firmware:
 
