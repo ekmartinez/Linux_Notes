@@ -448,14 +448,21 @@ grub-install --target=x86_64-efi --efi-directory=/boot
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-## Rebooting the System
+## Finish the installation
+
+Exit chroot environment, unmount root partion and reboot the system.
 
 ```bash
 exit
 ```
-
 ```bash
 cd
+```
+```bash
 umount -R /mnt/gentoo
+```
+```bash
 reboot
 ```
+
+If you get a login prompt, you made it alive.
