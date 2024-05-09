@@ -1,6 +1,6 @@
 # Gentoo Linux Installation Guide 2024
 
-This is an installation guide on how to install Gentoo Linux (Openrc) on physical hardware.  This guide was tested using a distribution kernel, nevertheless, instructions on how to compile a custom kernel will also be provided.  This guide also asumes UEFI.
+This is an installation guide on how to install Gentoo Linux (Openrc) on physical hardware.  This guide was tested using a distribution kernel, nevertheless, instructions on how to compile a custom kernel will also be provided.  This guide asumes UEFI.
 
 * [Prepare Disk](#Prepare-Disk) 
 * [Stage 3](#Stage3)
@@ -198,6 +198,8 @@ Set time zone:
 ```bash
 ls -l /usr/share/zoneinfo/Europe/
 echo "Europe/Brussels" > /etc/timezone
+```
+```bash
 emerge --config sys-libs/timezone-data
 ```
 
@@ -260,7 +262,6 @@ sys-kernel/installkernel dracut
 
 This automates the kernel installation, the initramfs generation and ensures images are placed in the proper locations.
 
-
 **Distribution Kernel (Easy Way)**
 
 The distribution kernel can be installed by downloading a binary kernel or by compiling (automatically, without user intervention) the source code.
@@ -300,6 +301,7 @@ As in the easy way, make sure you have `etc/portage/package.use/installkernel` w
 ```bash
 sys-kernel/installkernel dracut
 ```
+
 Now get the `installkernel` package:
 
 ```bash
@@ -469,4 +471,4 @@ umount -R /mnt/gentoo
 reboot
 ```
 
-If you get a login prompt, you made it alive.
+If you get a login prompt, that means you made it alive.
