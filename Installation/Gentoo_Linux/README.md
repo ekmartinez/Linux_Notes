@@ -312,7 +312,7 @@ Install kernel sources:
 emerge --ask sys-kernel/gentoo-sources
 ```
 
-As in the easy method, create a symbolic link to `/usr/src/linux` by usinng the eselect's kernel module:
+As in the easy method, create a symbolic link to `/usr/src/linux` by using the eselect's kernel module:
 
 ```bash
 eselect kernel list
