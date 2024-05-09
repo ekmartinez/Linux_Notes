@@ -166,7 +166,7 @@ If necessary, change profile:
 eselect profile set <int>
 ```
 
-Configure CPU flags them to the system's architecture:
+Configure CPU flags to match them to the system's architecture:
 
 ```bash
 emerge --ask --oneshot app-portage/cpuid2cpuflags
