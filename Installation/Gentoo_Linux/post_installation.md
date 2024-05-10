@@ -101,4 +101,38 @@ Create a regular user:
 useradd -m -G users,wheel,audio -s /bin/bash larry 
 ```
 
+Assign a password:
+
+```bash
+passwd larry
+```
+
+**Installing Sway Window Manager**
+
+Lets define the use flags that ended up working (had a hard to get this working.
+
+```bash
+USE="-kde -gnome -xfce -systemd -seatd elogind wayland X"
+```
+
+The error message I got when trying to run sway was the following:
+
+```bash
+error: XDG_RUNTIME_DIR not set in the environment.
+```
+
+Apparently, this was caused by pam not being able to communicate correctly with elogind.  Looks like the first time I got sway installed I did'nt include the elogind use flag.  This was fixed by reinstalling `sys-auth/pambase with the elogind use flag set.
+
+```bash
+emerge --ask gui-wm/sway
+```
+
+Create config files:
+
+```bash
+mkdir -p ~/.config/sway/
+cp /etc/sway/config ~/.config/sway/ 
+```
+
+
 
