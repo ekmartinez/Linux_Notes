@@ -134,5 +134,55 @@ mkdir -p ~/.config/sway/
 cp /etc/sway/config ~/.config/sway/ 
 ```
 
+At the time of this writting, waybar was not functioning properly.  Using swaybar in the meantime.
 
+**Adjust Display Brightness**
 
+Install `xbacklight`:
+
+```bash
+ sys-power/acpilight
+```
+
+To control the brightness through the command prompt:
+
+First add user to the video group:
+
+```bash
+sudo usermod -aG video user_name
+```
+
+To get the current brightness level:
+
+```bash
+xbacklight -get
+```
+
+To set brightness in percentage terms:
+
+```bash
+xbacklight -set 50
+```
+
+In order to control the display brightness through the keyboard,  we have to create some configurations:
+
+`~/.config/sway/config`
+
+```bash
+bindsym XF86MonBrightnessDown exec xbacklight -dec 2
+bindsym XF86MonBrightnessUp exec xbacklight -inc 4
+```
+
+`/etc/udev/rules.d/90-backlight.rules`
+
+```bash
+SUBSYSTEM=="backlight", ACTION=="add", \
+  RUN+="/bin/chgrp video /sys/class/backlight/%k/brightness", \
+  RUN+="/bin/chmod g+w /sys/class/backlight/%k/brightness"
+
+SUBSYSTEM=="leds", ACTION=="add", KERNEL=="*::kbd_backlight", \
+  RUN+="/bin/chgrp video /sys/class/leds/%k/brightness", \
+  RUN+="/bin/chmod g+w /sys/class/leds/%k/brightness"
+```
+
+Control of brightness usign the keyboard was not working at the time of this writting.
