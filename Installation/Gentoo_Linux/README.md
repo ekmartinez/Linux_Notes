@@ -78,8 +78,6 @@ Lets configure our `make.conf` file:
 nano /mnt/gentoo/etc/portage/make.conf
 ```
 
-Configure the `make.conf` file:
-
 ```bash
 COMMON_FLAGS="-march=native -O2 -pipe"
 MAKEOPTS="-j8 -l8"
