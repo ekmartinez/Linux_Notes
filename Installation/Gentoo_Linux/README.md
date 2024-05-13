@@ -72,7 +72,7 @@ If everything is ok, install the stage 3:
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 ```
 
-Configure the compiling options:
+Lets configure our `make.conf` file:
 
 ```bash
 nano /mnt/gentoo/etc/portage/make.conf
@@ -83,10 +83,21 @@ Configure the `make.conf` file:
 ```bash
 COMMON_FLAGS="-march=native -O2 -pipe"
 MAKEOPTS="-j8 -l8"
+USE="-kde -gnome -systemd -seatd elogind wayland X"
+ACCEPT_LICENSE="*"
+GRUB_PLATFORMS="efi-64"
+VIDEO_CARDS="radeon intel"
 ```
 
 * The `-march=native` flag specifies the name of the target architecture
 * The `MAKEOPTS` declaration, this defines how many parallel compilations shoud occur when installing packages. (Use ramsize/2).
+* Use flags specifies compilation options globally.
+* Accept license * means accept them all without asking.
+* Grub platforms gives instructions to grub at the boot loader installation stage.
+* Video cards specifies which video card drivers are goin to be installed.
+
+Some of these options aren't really necessary at this point, but we include them now to avoid problems and errors down the road.
+
 
 ## Install Base System
 
@@ -254,10 +265,16 @@ Install the microcode:
 emerge --ask sys-firmware/intel-microcode
 ```
 
-Also with either approach, create an `installkernel` file in `etc/portage/package.use/installkernel` and add the following:
+With whatever option you choose create a `etc/portage/package.use/installkernel` file with the following:
 
 ```bash
 sys-kernel/installkernel dracut
+```
+
+Now get the `installkernel` package:
+
+```bash
+emerge --ask sys-kernel/installkernel
 ```
 
 This automates the kernel installation, the initramfs generation and ensures images are placed in the proper locations.
@@ -286,7 +303,6 @@ eselect kernel list
 ```bash
 eselect kernel set <int>
 ```
-The above step is used in both the easy and the hard methods.
 
 **Compiling and Building the Linux kernel from source**
 
@@ -294,18 +310,6 @@ Install `pciutils`, this allows you to know what kind of hardware you have which
 
 ```bash
 emerge --ask sys-apps/pciutils
-```
-
-As in the easy way, make sure you have `etc/portage/package.use/installkernel` with the following:
-
-```bash
-sys-kernel/installkernel dracut
-```
-
-Now get the `installkernel` package:
-
-```bash
-emerge --ask sys-kernel/installkernel
 ```
 
 Install kernel sources:
