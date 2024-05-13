@@ -109,20 +109,17 @@ passwd larry
 
 **Installing Sway Window Manager**
 
+First, specify your video cards in your make.conf early in the game to avoid driver problems down the road (while installing gentoo).
+
+```bash
+VIDEO_CARDS="radeon intel"
+```
+
 Lets define the use flags that ended up working (had a hard to get this working.
 
 ```bash
 USE="-kde -gnome -xfce -systemd -seatd elogind wayland X"
 ```
-
-The error message I got when trying to run sway was the following:
-
-```bash
-error: XDG_RUNTIME_DIR not set in the environment.
-```
-
-Apparently, this was caused by pam not being able to communicate correctly with elogind.  Looks like the first time I got sway installed I did'nt include the elogind use flag.  This was fixed by reinstalling `sys-auth/pambase with the elogind use flag set.
-
 ```bash
 emerge --ask gui-wm/sway
 ```
@@ -134,7 +131,26 @@ mkdir -p ~/.config/sway/
 cp /etc/sway/config ~/.config/sway/ 
 ```
 
-At the time of this writting, waybar was not functioning properly.  Using swaybar in the meantime.
+Start/Enable elogind service on boot:
+
+```bash
+sudo rc-update add elogind boot
+```
+
+Reboot the system, then run `sway`.
+
+On one occation I encountered the following error message:
+
+```bash
+error: XDG_RUNTIME_DIR not set in the environment.
+```
+
+Apparently, this was caused by pam not being able to communicate correctly with elogind.  Looks like the first time I got sway installed I didn't include the elogind use flag.  This was fixed by reinstalling `sys-auth/pambase with the elogind use flag set.
+
+**Waybar**
+
+At the time of this writting, waybar was not working.  Using swaybar in the meantime.
+
 
 **Adjust Display Brightness**
 
