@@ -8,6 +8,7 @@ This is an installation guide on how to install Gentoo Linux (Openrc) on physica
 * [Compiling The Linux Kernel](#Compiling-The-Linux-Kernel)
 * [Configuring The System](#Configuring-The-System)
 * [Installing a Bootloader](#Installing-a-Bootloader)
+* [Post Installation Tasks](#Post-Installation-Tasks)
 
 ## Prepare disk
 
@@ -415,13 +416,10 @@ Add the hosts file:
 192.168.0.6   benny.homenetwork benny
 ```
 
-Install wireless support:
+Install `iwd` to have access to the iwctl tool after booting up:
 
 ```bash
-emerge --ask net-wireless/iw net-wireless/wpa_supplicant
-```
-```bash
-emerge --ask net-wireless/wireless-tools
+emerge --ask net-wireless/iwd
 ```
 
 Set a root password:
@@ -474,3 +472,90 @@ reboot
 ```
 
 If you get a login prompt, that means you made it alive.
+
+## Post Installation Tasks
+
+**Install sudo and add a regular user**
+
+Install sudo:
+
+```bash
+emerge --ask app-admin/sudo
+```
+
+As the documentation warns, only use visudo to edit the sudoers file:
+
+```bash
+visudo
+```
+Uncomment relevant line:
+
+```bash
+## Uncomment to allow members of group wheel to execute any command
+%wheel ALL=(ALL:ALL) ALL
+```
+
+Create a regular user:
+
+```bash
+useradd -m -G users,wheel,audio -s /bin/bash user_name 
+```
+
+Assign a password:
+
+```bash
+passwd user_name
+```
+
+
+**Adjust Display Brightness**
+
+Install `xbacklight`:
+
+```bash
+ sys-power/acpilight
+```
+
+To control the brightness through the command prompt:
+
+First add user to the video group:
+
+```bash
+sudo usermod -aG video user_name
+```
+
+To get the current brightness level:
+
+```bash
+xbacklight -get
+```
+
+To set brightness in percentage terms:
+
+```bash
+xbacklight -set 50
+```
+
+In order to control the display brightness through the keyboard,  we have to create some configurations:
+
+`~/.config/sway/config`
+
+```bash
+bindsym XF86MonBrightnessDown exec xbacklight -dec 2
+bindsym XF86MonBrightnessUp exec xbacklight -inc 4
+```
+
+`/etc/udev/rules.d/90-backlight.rules`
+
+```bash
+SUBSYSTEM=="backlight", ACTION=="add", \
+  RUN+="/bin/chgrp video /sys/class/backlight/%k/brightness", \
+  RUN+="/bin/chmod g+w /sys/class/backlight/%k/brightness"
+
+SUBSYSTEM=="leds", ACTION=="add", KERNEL=="*::kbd_backlight", \
+  RUN+="/bin/chgrp video /sys/class/leds/%k/brightness", \
+  RUN+="/bin/chmod g+w /sys/class/leds/%k/brightness"
+```
+
+Control of brightness usign the keyboard was not working at the time of this writting, however you can do so via the waybar brightness icon.
+
