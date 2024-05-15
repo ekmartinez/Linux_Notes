@@ -507,7 +507,6 @@ Assign a password:
 passwd user_name
 ```
 
-
 **Adjust Display Brightness**
 
 Install `xbacklight`:
@@ -558,4 +557,54 @@ SUBSYSTEM=="leds", ACTION=="add", KERNEL=="*::kbd_backlight", \
 ```
 
 Control of brightness usign the keyboard was not working at the time of this writting, however you can do so via the waybar brightness icon.
+
+**Firewall**
+
+Install firewalld:
+
+```bash
+sudo emerge -av net-firewall/firewalld
+```
+
+Start service:
+
+```bash
+sudo rc-service firewalld start
+```
+
+Enable service:
+
+```bash
+sudo rc-update add firewalld default
+```
+
+Get default zone:
+
+```bash
+sudo firewall-cmd --get-default-zone
+```
+
+List permited services:
+
+```bash
+sudo firewall-cmd --zone=<name> --list-services
+```
+
+Remove service:
+
+```bash
+sudo firewall-cmd --zone=<name> --remove-service=<name> --permanent
+```
+
+Reload firewall:
+
+```bash
+sudo firewall-cmd --reload
+```
+
+Ensure changes are permanent:
+
+```bash
+firewall-cmd --runtime-to-permanent
+```
 
