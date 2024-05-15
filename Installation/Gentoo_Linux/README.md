@@ -421,6 +421,9 @@ Install `iwd` to have access to the iwctl tool after booting up:
 ```bash
 emerge --ask net-wireless/iwd
 ```
+```bash
+rc-update add iwd default 
+```
 
 Set a root password:
 
