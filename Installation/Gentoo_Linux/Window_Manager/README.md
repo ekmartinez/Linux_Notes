@@ -122,3 +122,40 @@ bar {
 }
 ```
 
+Install a screen locker:
+
+```bash
+sudo emerge --ask gui-apps/swaylock
+```
+
+`~/.config/sway/config`
+
+```bash
+bindsym $mod+o exec swaylock --ignore-empty-password --show-failed-attempts \
+    --color 1e1e1e --inside-color cccccc --ring-color ffffff \
+    --inside-clear-color 11a8cd --ring-clear-color 29b8db \
+    --inside-ver-color 2472c8 --ring-ver-color 3b8eea \
+    --inside-wrong-color cd3131 --ring-wrong-color f14c4c
+```
+
+Install screen idle:
+
+```bash
+sudo emerge --ask gui-apps/swayidle
+```
+
+`~/.config/sway/config`
+```bash
+exec swayidle -w \
+  timeout 900 'swaymsg "output * power off"' \
+  resume 'swaymsg "output * power on"'
+```
+
+Start sway after login:
+
+`~/.bashrc`
+```bash
+if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+    dbus-run-session sway
+fi
+```
