@@ -395,13 +395,17 @@ routes_eth0="default via 192.168.0.1"
 For dhcp:
 
 ```bash
+# Configuring wired & wireless interfaces
 config_eth0="dhcp"
+config_wlan0="dhcp"
 ```
 
 Enable networking at boot:
 
 ```bash
 cd /etc/init.d
+
+#Repeat for each interface
 ln -s net.lo net.eth0
 rc-update add net.eth0 default
 ```
@@ -416,13 +420,26 @@ Add the hosts file:
 192.168.0.6   benny.homenetwork benny
 ```
 
-Install `iwd` to have access to the iwctl tool after booting up:
+Enable wifi connections:
 
 ```bash
-emerge --ask net-wireless/iwd
+emerge --ask net-wireless/wpa_supplicant
 ```
 ```bash
-rc-update add iwd default 
+mkdir /etc/wpa_supplicant
+```
+
+`/etc/wpa_supplicant/wpa_supplicant.conf`
+
+```bash
+network={
+	ssid="ssid"
+	psk="wireless_password"
+}
+```
+
+```bash
+rc-update add wpa_supplicant default 
 ```
 
 Set a root password:
