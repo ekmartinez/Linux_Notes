@@ -7,7 +7,7 @@ This section contains instructions on how to install and configure virtualizatio
 * [Qemu](#Qemu)
 * [Libvirt](#Libvirt)
 * [Virt-Manager](#Virt-Manager)
-* [Bridge](#Bridge)
+* [Network Bridge](#Network-Bridge)
 
 ## Qemu
 
@@ -77,7 +77,7 @@ sudo emerge --ask app-emulation/virt-manager
 
 ## Network Bridge
 
-When we create a bridge we need to understand that a new network interface has to be created, then we need to **bridge** our physical ethernet adapter to that newly created interface (br0).  We accomplish this using netifrc and dhcpcd.
+In summary, when we create a bridge we first need to create a new network interface, we then need to `bridge` our physical ethernet adapter to that newly created interface `br0`.  We accomplish this using netifrc and dhcpcd.
 
 `/etc/conf.d/net`
 ```bash
@@ -99,7 +99,3 @@ Start / Enable interface at boot:
 ```bash
 sudo rc-service net.br0 start && sudo rc-update add net.br0 boot
 ```
-
-
-
-
