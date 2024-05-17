@@ -57,7 +57,7 @@ unix_sock_rw_perms = "0770"
 Start/Enable service:
 
 ```bash
-sudo rc-service libvirtd start && rc-update add libvirtd default
+sudo rc-service libvirtd start && sudo rc-update add libvirtd default
 ```
 
 ## Virt-Manager
