@@ -48,6 +48,6 @@ Substitute all instances: `/s/pattern/substitute/g`
 
 **Commenting Block of Code**
 
-Move to first line of the block of code that you want to comment, the go into Visual Block mode (CTRL+V) using navigations key to highlight the block to be commented, now use Shift to go into Insert mode (SHIFT + I), go back to the first line and inser the comment charachter "#", press ESC.
+Move to first line of the block of code that you want to comment, then go into Visual Block mode (CTRL+V), use navigations key to highlight the block to be commented, now use Shift to go into Insert mode (SHIFT + I), insert the comment character "#", press ESC.
 
 Key representation: `CTRL + V > j | k > SHIFT + I > "#" > ESC` 
