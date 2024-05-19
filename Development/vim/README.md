@@ -40,11 +40,11 @@ Paste: `p`
 
 Enter command mode `SHIFT + :`
 
-Search: /s/pattern
+Search: `/s/pattern`
 
-Substitute 1st instance: /s/pattern/substitute 
+Substitute 1st instance: `/s/pattern/substitute` 
 
-Substitute all instances: /s/pattern/substitute/g
+Substitute all instances: `/s/pattern/substitute/g`
 
 **Commenting Block of Code**
 
