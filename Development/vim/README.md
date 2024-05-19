@@ -5,24 +5,35 @@ This section contains some of the most used key bindings in vim.  There is a lot
 **Modes** 
 
 Normal mode: `ESC`
+
 Insert mode: `CTRL + I`   
+
 Visual insert Mode: `SHIFT + I`
+
 Visual block: `CTRL + V`
+
 Command mode: `SHIFT + :`
 
 **Keybindings**
 
 Move left = `h`
+
 Move right = `l`
+
 Move up = `k`
+
 Move down = `j`
+
 Move top of file: `gg`
+
 Move to bottom of file: `G`
 
 **Cut, copy, paste**
 
 Cut line: `dd` 
+
 copy line: 'yy'
+
 Paste: `p`
 
 **Searching**
@@ -30,7 +41,9 @@ Paste: `p`
 Enter command mode `SHIFT + :`
 
 Search: /s/pattern
+
 Substitute 1st instance: /s/pattern/substitute 
+
 Substitute all instances: /s/pattern/substitute/g
 
 **Commenting Block of Code**
