@@ -36,7 +36,7 @@ copy line: `yy`
 
 Paste: `p`
 
-**Searching**
+**Serching**
 
 Enter command mode `SHIFT + :`
 
@@ -45,6 +45,14 @@ Search: `/s/pattern`
 Substitute 1st instance: `/s/pattern/substitute` 
 
 Substitute all instances: `/s/pattern/substitute/g`
+
+**Indenting / Unindenting Block of Code**
+
+Enter visual mode `SHIFT + V`, select the block of code and indented as follows:
+
+Indent - `SHIFT + >`
+
+Unindent - `SHIFT + <`
 
 **Commenting Block of Code**
 
