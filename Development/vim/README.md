@@ -32,7 +32,7 @@ Move to bottom of file: `G`
 
 Cut line: `dd` 
 
-copy line: 'yy'
+copy line: `yy`
 
 Paste: `p`
 
