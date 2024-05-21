@@ -24,6 +24,10 @@ Move up = `k`
 
 Move down = `j`
 
+Move start of line = `^'
+
+Move end of line = `$`
+
 Move top of file: `gg`
 
 Move to bottom of file: `G`
@@ -54,8 +58,10 @@ Indent - `SHIFT + >`
 
 Unindent - `SHIFT + <`
 
-**Commenting Block of Code**
+**Commenting/Uncommenting Block of Code**
 
-Move to first line of the block of code that you want to comment, then go into Visual Block mode (CTRL+V), use navigations key to highlight the block to be commented, now use Shift to go into Insert mode (SHIFT + I), insert the comment character "#", press ESC.
+* Block comment - Move to first line of the block of code that you want to comment, then go into Visual Block mode (CTRL+V), use navigations key to highlight the block to be commented, now use Shift to go into Insert mode (SHIFT + I), insert the comment character "#", press ESC.
 
-Key representation: `CTRL + V > j | k > SHIFT + I > "#" > ESC` 
+* Block uncomment - Move to first line of the block of code that you want to comment, then go into Visual Block mode (CTRL+V), use navigations key to highlight the block to be commented, type x, type ESC.
+    Key representation: `CTRL + V > j | k > x >  ESC`
+
