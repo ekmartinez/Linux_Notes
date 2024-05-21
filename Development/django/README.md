@@ -9,6 +9,12 @@ Create a virtual environment:
 python -m venv env
 ```
 
+Activate virtual environment:
+
+```bash
+source env/bin/activate
+```
+
 Install django:
 
 ```bash
@@ -69,6 +75,12 @@ After installing with the above command, Configure the database as follows:
 sudo emerge --config dev-db/mariadb
 ```
 
+Install mysqlclient:
+
+```bash
+pip install mysqlclient
+```
+
 In your `settings.py`:
 
 ```bash
@@ -91,7 +103,6 @@ python manage.py migrate
 ```
 
 ## Django Admin Access
-
 
 Create User:
 
