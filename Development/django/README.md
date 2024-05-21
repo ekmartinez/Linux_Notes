@@ -90,4 +90,22 @@ Create initial database:
 python manage.py migrate
 ```
 
+## Django Admin Access
 
+
+Create User:
+
+```bash
+python manage.py createsuperuser
+```
+```bash
+Username: admin
+```
+```bash
+Email address: admin@example.com
+```
+```bash
+Password: **********
+Password (again): *********
+Superuser created successfully.
+```
