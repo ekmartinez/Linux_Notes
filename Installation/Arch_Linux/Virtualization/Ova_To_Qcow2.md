@@ -12,13 +12,13 @@ Here are the instructions on how to convert an ova image into a to qcow2 disk im
 
 If you have virtual box installed you can export the image as follows:
 
-List all the vms that are installed
+List all the vms that are installed:
 
 ```bash
 VBoxManage list vms
 ```
 
-Export the image as ova 1.0 (Better compatibility)
+Export the image as ova 1.0 (Better compatibility):
 
 ```bash
 VBoxManage export vmName -O exportName.ova --ovf10
@@ -30,13 +30,13 @@ Even if you don't have Virtual Box, but you have a valid `ova` file, the followi
 
 Inside the `ova` file resides the `vmdk` disk image which we will use to convert into `qcow2`.
 
-Extract content of ova file
+Extract content of ova file:
 
 ```bash
 tar -xvf file.ova
 ```
 
-Convert vmdk into qcow2
+Convert vmdk into qcow2:
 
 ```bash
 qemu-img -f convert vmdk -O qcow2 file.vmdk destination_file.qcow2
