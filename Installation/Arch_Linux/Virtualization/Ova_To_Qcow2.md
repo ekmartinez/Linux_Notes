@@ -39,7 +39,7 @@ tar -xvf file.ova
 Convert vmdk into qcow2:
 
 ```bash
-qemu-img -f convert vmdk -O qcow2 file.vmdk destination_file.qcow2
+qemu-img convert -f vmdk -O qcow2 file.vmdk destination_file.qcow2
 ```
 
 If everyting worked you should now be able to import your new disk image into qemu-kvm.
