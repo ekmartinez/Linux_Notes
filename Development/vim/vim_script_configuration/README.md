@@ -1,6 +1,6 @@
 # Neovim Setup Guide
 
-**This section is outdated and kept here for reference.  For a more up to date configuration copy the nvim folder included here into your ~/.config directory.**
+**For a more up to date configuration use the lazy_nvim configuration**
 
 1. Install Neovim
 2. Install Vim-Plug
