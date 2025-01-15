@@ -10,7 +10,7 @@ Update repositories:
 sudo apt update
 ```
 
-*Apache Web Server*
+**Apache Web Server**
 
 Installation:
 
@@ -59,7 +59,7 @@ sudo a2ensite moodle.conf
 sudo systemctl restart apache2
 ```
 
-*MariaDB*
+**MariaDB**
 
 Install mariadb:
 
@@ -85,7 +85,7 @@ Create database and user for moodle:
 ```bash
 CREATE DATABASE moodle CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER 'moodle'@'localhost' IDENTIFIED BY 'your-password';
-GRAN ALL PRIVILEGES ON moodle.* TO 'moodleuser'@localhost';
+GRANT ALL PRIVILEGES ON moodle.* TO 'moodleuser'@localhost';
 FLUSH PRIVILIGES;
 ```
 
@@ -104,6 +104,7 @@ Installing moodle:
 Download the latest stable release from moodle.org.
 
 Create data directory:
+
 ```bash
 sudo mkdir /var/www/moodledata
 ```
