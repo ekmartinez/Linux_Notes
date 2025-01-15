@@ -85,8 +85,8 @@ Create database and user for moodle:
 ```bash
 CREATE DATABASE moodle CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER 'moodle'@'localhost' IDENTIFIED BY 'your-password';
-GRANT ALL PRIVILEGES ON moodle.* TO 'moodleuser'@localhost';
-FLUSH PRIVILIGES;
+GRANT ALL PRIVILEGES ON moodle.* TO 'moodleuser'@'localhost';
+FLUSH PRIVILEGES;
 ```
 
 *PHP*
@@ -94,7 +94,13 @@ FLUSH PRIVILIGES;
 Install php:
 
 ```bash
-sudo apt install php php-mysqli
+sudo apt install php php-mysqli php-xml php-mbstring php-curl php-zip php-gd php-intl php-soap
+```
+
+Set the `max_input_vars = 5000` in the `php.ini` file:
+
+```bash
+sudo nvim /etc/php/8.2/apache2/php.ini
 ```
 
 *Moodle*
@@ -127,7 +133,13 @@ If everything went well you should be able to navigate to http://localhost and f
 3. Choose database driver
     * Mariadb
 4. Database settings
-    *
+    * Database host: localhost
+    * Database name: moodle
+    * Database user: moodle_user
+    * Database password: password
+    * Tables prefix: mdl_
+    * Database port: 3306
+    * Unix socket: /var/run/mysqld/mysqld.sock
 
 
 
