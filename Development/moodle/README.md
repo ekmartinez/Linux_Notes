@@ -141,8 +141,18 @@ If everything went well you should be able to navigate to http://localhost and f
     * Database port: 3306
     * Unix socket: /var/run/mysqld/mysqld.sock
 
+You will eventually get to the point where the web interface will show errors, warnings and missing packages.  Solve those and you should be ready to go.
 
+Finally, create a cron job for moodle:
 
+```bash
+sudo crontab -u www-data -e
+```
+Add the following:
+
+* * * * * /usr/bin/php /var/www/html/moodle/admin/cli/cron.php >/dev/null
+
+This will execute Moodle cron every minute.
 
 
 
